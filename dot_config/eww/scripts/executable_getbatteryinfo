@@ -1,0 +1,148 @@
+#!/usr/bin/bash
+declare -A device_alias
+device_alias=(["BAT0"]="Laptop Battery")
+device_exclude="DisplayDevice|line_power_AC0"
+cache_dir="$HOME/.cache/batterystate"
+max_num="5"
+
+list_devices() {
+    upower -e
+}
+
+get_property() {
+    qdbus --system org.freedesktop.UPower "$1" org.freedesktop.UPower.Device."$2"
+}
+
+get_dev_info() {
+    device_percentage=$(get_property "$1" "Percentage")
+    case "$(get_property "$1" "State")" in
+        1) device_state="Charging";;
+        2) device_state="Discharging";;
+        3) device_state="Empty";;
+        4) device_state="Full";;
+        *) device_state="Unknown";;
+    esac
+    case "$(get_property "$1" "Type")" in
+        0) device_type="Unknown";;
+        1) device_type="Line Power";;
+        2) device_type="Battery";;
+        3) device_type="Ups";;
+        4) device_type="Monitor";;
+        5) device_type="Mouse";;
+        6) device_type="Keyboard";;
+        7) device_type="Pda";;
+        8) device_type="Phone";;
+    esac
+    device_model=$(get_property "$1" "Model")
+    device_path=$(get_property "$1" "NativePath")
+}
+
+notify_info() {
+    [ -d "$cache_dir" ] || mkdir -p "$cache_dir"
+
+    if [ "$device_percentage" -le 30 ];then
+        if ! [ -f "$cache_dir/$device_path" ];then
+            echo "low" > "$cache_dir/$device_path"
+            notify-send -u critical "${device_alias[$device_path]:-$device_model} 电量过低！"
+        fi
+    elif [ "$device_percentage" -ge 100 ];then
+        if ! [ -f "$cache_dir/${device_path//\//_}" ];then
+            echo "full" > "$cache_dir/${device_path//\//_}"
+            notify-send -u normal "${device_alias[$device_path]:-$device_model} 电量已满！"
+        fi
+    else
+        [ -f "$cache_dir/$device_path" ] && rm "$cache_dir/$device_path" 
+    fi
+}
+
+battery_info() {
+    devices=($(list_devices | grep -v 'DisplayDevice'))
+    if [ -n "$devices" ];then
+        # for display icon
+        icon=("" "" "" "" "" "" "" "" "" "" "" "")
+        get_dev_info "/org/freedesktop/UPower/devices/DisplayDevice"
+        if [ "$device_state" == "Charging" ];then
+            battery_icon="${icon[-1]}" 
+        else
+            battery_icon="${icon["$(($device_percentage / 10))"]}" 
+        fi
+        eww update battery_icon="$battery_icon"
+        battery_info="${device_type} State: ${device_state}  Capacity: ${device_percentage}%"
+        
+        # for battery info
+        for device in "${devices[@]}";do
+            get_dev_info "$device"
+            echo "$device_exclude" | grep "$device_path" &>/dev/null && continue
+            notify_info
+            # battery_info+="Device: ${device_alias[$device_path]:-$device_model}\n  State: ${device_state}\n  Capacity: ${device_percentage}%\n"
+        done
+
+        echo -en "$battery_info"
+    fi
+}
+
+eww_widget() {
+    devices=($(list_devices | grep -vE "$device_exclude"))
+    devices_num=${#devices[@]}
+    if [ -n "$devices" ];then
+        for device in "${devices[@]}";do
+            count=$(($count+1))
+            [ "$count" -gt "$max_num" ] && break
+            if [ "$count" -lt "$devices_num" ] && [ "$count" -ne "$max_num" ];then
+                sep=1
+            else
+                unset sep
+            fi
+
+            get_dev_info "$device"
+
+            # get icon
+            case "$device_type" in
+                Battery) device_icon="";;
+                Mouse) device_icon="";;
+                Keyboard) device_icon="";;
+            esac
+
+            if [ "$device_state" == "Charging" ];then
+                level="charging"
+            elif [ "$device_percentage" -lt 33 ];then
+                level="high"
+            elif [ "$device_percentage" -gt 66 ];then
+                level="low"
+            else
+                level="normal"
+            fi
+
+            # Adds basic info widgeets
+            device_widgets+=$(cat <<-EOF
+            (box :class "device  $device_type" :orientation "h" :height "130" :space-evenly false
+                (circular-progress
+                    :width "130" 
+                    :class "progress $level"
+                    :thickness 6
+                    :value $device_percentage
+                    "$device_icon")
+                (box :class "info_group" :orientation "v" :valign "center" :halign "start" :space-evenly false
+                    (label :class "first" :halign "start" :limit-width 15 :text "${device_alias[$device_path]:-$device_model}")
+                    (label :class "second" :halign "start" :text "$device_state")
+                    (label :class "third" :halign "start" :text "${device_percentage}%")))\n
+EOF
+            )
+
+            # Adds separation between widgeets
+            if [ -n "$sep" ];then
+                device_widgets+='(box :class "sep" :halign "fill" :valign "fill")'
+            fi
+
+        done
+
+        echo -en "(box :orientation 'v' :space-evenly false $device_widgets)"
+    fi
+
+}
+
+case "$1" in
+    -l) list_devices;;
+    -e) eww_widget;;
+    *) battery_info;;
+esac

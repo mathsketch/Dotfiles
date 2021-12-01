@@ -1,0 +1,194 @@
+# prompt
+format = """\
+    [](fg:black)[${custom.icon}$username $directory\
+    ( $git_branch$git_commit$git_state$git_metrics$git_status)\
+    ( ${custom.giturl})\
+    ( $hg_branch)\
+    ( $python)\
+    ( $rust)\
+    ( $golang)\
+    ( $java)\
+    ( $lua)\
+    ( $nodejs)](bg:black)\
+    [](fg:black)\
+    (↑ Left Prompt ↑)\
+    $fill\
+    (↓ Right Prompt ↓)\
+    ($jobs )\
+    (${custom.proxy} )\
+    (${custom.lfshell} )\
+    [](fg:black)\
+    [($cmd_duration )\
+    ($conda )\
+    ($cmake )\
+    $time](bg:black)\
+    [](fg:black)\
+    $line_break\
+    $character\
+"""
+scan_timeout = 10
+command_timeout = 5000
+add_newline = false
+
+[fill]
+symbol=" "
+disabled=false
+
+[hostname]
+ssh_only = false
+
+[username]
+format = "[$user]($style)"
+style_user = "bold fg:bright-yellow bg:black" 
+show_always = true
+
+[directory]
+format = "[ $path]($style)[$read_only]($read_only_style)"
+style = "bold fg:bright-cyan bg:black"
+read_only = " "
+read_only_style = "fg:red bg:black"
+
+[git_branch]
+symbol = ""
+format = "[$symbol$branch]($style)"
+style = "bold fg:purple bg:black"
+
+[git_commit]
+format = "[\\($hash$tag\\)]($style)"
+style = "bold fg:green bg:black"
+
+[git_state]
+format = '[\($state( $progress_current/$progress_total)\)]($style)'
+style = "bold fg:yellow bg:black"
+
+[git_metrics]
+format = '[( +$added)]($added_style)[( -$deleted)]($deleted_style)'
+added_style = "bold fg:green bg:black"
+deleted_style = "bold fg:red bg:black"
+disabled = true
+
+[git_status]
+staged = '[+$count](bold green bg:black)'
+format = '[(\[$all_status$ahead_behind\])]($style)'
+style = "bold fg:red bg:black"
+
+[conda]
+format = "[$symbol$environment]($style)"
+style = "bold fg:green bg:black"
+ignore_base = false
+disabled = false
+
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\))]($style)'
+symbol = " "
+style =	"bold fg:yellow bg:black"
+
+[rust]
+format = "[$symbol($version)]($style)"
+symbol = " "
+style = "bold fg:bright-red bg:black"
+
+[golang]
+format = "[$symbol($version)]($style)"
+symbol = " "
+style =	"bold fg:bright-blue bg:black"
+
+[java]
+format = "[$symbol($version)]($style)"
+symbol = " "
+style =	"bold fg:bright-yellow bg:black"
+
+[lua]
+format = "[$symbol($version)]($style)"
+symbol = " "
+style =	"bold fg:blue bg:black"
+
+[nodejs]
+format = "[$symbol($version)]($style)"
+symbol = " "
+style =	"bold fg:green bg:black"
+
+[cmake]
+format = "[$symbol($version)]($style)"
+symbol = "卑"
+style =	"bold fg:bright-green bg:black"
+
+[cmd_duration]
+format = "[羽$duration]($style)"
+style = "bold fg:bright-yellow bg:black"
+
+[time]
+format = "[ $time]($style)"
+style = "bold fg:bright-black bg:black"
+disabled = false
+
+[jobs]
+threshold = 1
+format = "[[$symbol$number](fg:black bg:yellow)]($style)"
+style = "fg:yellow"
+symbol = " "
+
+[shell]
+disabled = false
+
+[character]
+format = "$symbol "
+success_symbol = "[❯](bold fg:bright-green)"
+error_symbol = "[❯](bold fg:red)"
+disabled = false
+
+[custom.lfshell]
+description = "lf shell"
+when = """[ -n "$LF_LEVEL" ]"""
+shell = ["bash", "--noprofile", "--norc"]
+format = "[[$symbol](fg:black bg:cyan)]($style)"
+symbol = " "
+style = "fg:cyan"
+
+[custom.proxy]
+when = """printenv http_proxy"""
+description = "proxy status"
+format = "[[$symbol](fg:black bg:purple)]($style)"
+symbol = " "
+style = "fg:purple"
+
+[custom.giturl]
+description = "Display symbol for remote Git server"
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+command = """
+GIT_REMOTE=$(command git ls-remote --get-url 2> /dev/null)
+if [[ "$GIT_REMOTE" =~ "github" ]]; then
+    GIT_REMOTE_SYMBOL=""
+elif [[ "$GIT_REMOTE" =~ "gitlab" ]]; then
+    GIT_REMOTE_SYMBOL=""
+elif [[ "$GIT_REMOTE" =~ "bitbucket" ]]; then
+    GIT_REMOTE_SYMBOL=""
+elif [[ "$GIT_REMOTE" =~ "git" ]]; then
+    GIT_REMOTE_SYMBOL=""
+fi
+echo "$GIT_REMOTE_SYMBOL"
+"""
+format = "[($output )]($style)"
+style = "bg:black"
+
+[custom.icon]
+description = "show system icon"
+when = 'true'
+command = """
+if [ -n "$(command -v get_os_name)" ];then
+    system=$(get_os_name | cut -d ' ' -f 1)
+else
+    system=$(uname -s) 
+fi
+case ${system,,} in
+    arch) echo '';;
+    debian) echo '';;
+    ubuntu) echo '';;
+    linux) echo '';;
+    darwin) echo '';;
+    *) echo '';;
+esac
+"""
+shell = ["bash", "--noprofile", "--norc"]
+format = "[($output )]($style)"
+style = "fg:blue bg:black"

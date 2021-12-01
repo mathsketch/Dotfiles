@@ -1,0 +1,158 @@
+##### directories ######
+ncmpcpp_directory = ~/.config/ncmpcpp
+lyrics_directory = ~/.cache/ncmpcpp/lyrics
+
+##### connection settings #####
+mpd_host = ~/.local/share/mpd/mpd.socket
+# mpd_port = 6600
+# mpd_connection_timeout = 5
+mpd_music_dir = ~/Music
+# mpd_crossfade_time = 5
+# random_exclude_pattern = "^(temp|midi_songs).*"
+
+##### music visualizer #####
+# /tmp/mpd.fifo
+visualizer_data_source = "/tmp/mpd.fifo"
+visualizer_output_name = "fifo"
+visualizer_in_stereo = yes
+# visualizer_sync_interval = 0
+visualizer_type = spectrum
+# visualizer_fps = 60
+# visualizer_autoscale = no
+visualizer_look = ●◆
+visualizer_color = cyan
+visualizer_spectrum_smooth_look = yes
+# visualizer_spectrum_dft_size = 5
+# visualizer_spectrum_gain = 10
+# visualizer_spectrum_hz_min = 20
+# visualizer_spectrum_hz_max = 20000
+
+##### system encoding #####
+# system_encoding = ""
+
+##### delays #####
+# playlist_disable_highlight_delay = 5
+message_delay_time = 1
+
+##### song format #####
+song_list_format = {$5%20a$9 $(11)$9 }{$(15)%t$9}|{$8%f$9}
+song_status_format = {{$5%a$9 $(11)$9 }{$(15)%t$9}}|{%f}
+song_library_format = {%n - }{%t}|{%f}
+alternative_header_first_line_format = $b $2$9 {%t}|{%f} $2$9 $/b
+alternative_header_second_line_format = {{$4$b%a$/b$9}{ - $7%b$9}{ ($4%y$9)}}|{%D}
+current_item_prefix = $b$(4_236)
+current_item_suffix = $/b$(end)
+current_item_inactive_column_prefix = $(white)
+current_item_inactive_column_suffix = $(end)
+now_playing_prefix = $(10)$9$(12)$9 $b
+now_playing_suffix = $/b
+browser_playlist_prefix = "$(magenta)蘿$9"
+selected_item_prefix = $(12) $9$b$(yellow)
+selected_item_suffix = $/b$9
+# modified_item_prefix = $3> $9
+# song_window_title_format = {%a - }{%t}|{%f}
+# browser_sort_mode = type
+# browser_sort_format = {%a - }{%t}|{%f} {%l}
+
+##### columns settings #####
+song_columns_list_format = (20)[]{a} (50)[white]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{l}
+
+##### various settings #####
+# execute_on_song_change = ""
+# execute_on_player_state_change = ""
+# playlist_show_mpd_host = no
+playlist_show_remaining_time = yes
+playlist_shorten_total_times = yes
+# playlist_separate_albums = no
+playlist_display_mode = classic
+browser_display_mode = columns
+search_engine_display_mode = columns
+playlist_editor_display_mode = columns
+discard_colors_if_item_is_selected = no
+# show_duplicate_tags = yes
+# incremental_seeking = yes
+seek_time = 5
+# volume_change_step = 2
+autocenter_mode = yes
+centered_cursor = yes
+# ▁▂▃▄━─═╍╌
+progressbar_look = "━━━"
+
+default_place_to_search_in = database
+user_interface = classic
+# data_fetching_delay = yes
+# media_library_primary_tag = artist
+# media_library_albums_split_by_date = yes
+# media_library_hide_album_dates = no
+# default_find_mode = wrapped
+# default_tag_editor_pattern = %n - %t
+
+header_visibility = no
+statusbar_visibility = yes
+connected_message_on_startup = no
+titles_visibility = yes
+header_text_scrolling = yes
+cyclic_scrolling = no
+# lyrics_fetchers = azlyrics, genius, musixmatch, sing365, metrolyrics, justsomelyrics, jahlyrics, plyrics, tekstowo, zeneszoveg, internet
+# follow_now_playing_lyrics = no
+# fetch_lyrics_for_current_song_in_background = no
+# store_lyrics_in_song_dir = no
+# generate_win32_compatible_filenames = yes
+# allow_for_physical_item_deletion = no
+
+# lastfm_preferred_language = en
+# space_add_mode = add_remove
+# show_hidden_files_in_local_browser = no
+
+## Screens available for use: help, playlist, browser, search_engine,
+## media_library, playlist_editor, tag_editor, outputs, visualizer, clock,
+## lyrics, last_fm.
+screen_switcher_mode = previous
+startup_screen = playlist
+startup_slave_screen = playlist
+startup_slave_screen_focus = no
+locked_screen_width_part = 30
+ask_for_locked_screen_width_part = no
+# jump_to_now_playing_song_at_start = yes
+# ask_before_clearing_playlists = yes
+clock_display_seconds = yes
+display_volume_level = yes
+# display_bitrate = no
+# display_remaining_time = no
+
+# regular_expressions = perl
+# ignore_leading_the = no
+# ignore_diacritics = no
+# block_search_constraints_change_if_items_found = yes
+mouse_support = yes
+mouse_list_scroll_whole_page = no
+lines_scrolled = 1
+# empty_tag_marker = <empty>
+# tags_separator = " | "
+# tag_editor_extended_numeration = no
+
+# media_library_sort_by_mtime = no
+# enable_window_title = yes
+# search_engine_default_search_mode = 1
+
+external_editor = nvim
+use_console_editor = yes
+
+##### colors definitions #####
+colors_enabled = yes
+color1 = default
+color2 = green
+# header_window_color = default
+# state_line_color = red
+main_window_color = default
+empty_tag_color = 9
+progressbar_color = black:b
+progressbar_elapsed_color = green:b
+statusbar_color = default
+volume_color = magenta:b
+state_flags_color = cyan:b
+statusbar_time_color = magenta:b
+player_state_color = cyan:b
+alternative_ui_separator_color = 9:b
+# window_border_color = green
+# active_window_border = red

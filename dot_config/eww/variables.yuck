@@ -1,0 +1,51 @@
+; reveal var
+(defvar reveal_backlight false)
+(defvar reveal_volume false)
+(defvar reveal_date false)
+(defvar reveal_music false)
+
+; backlight var
+(defvar backlight_icon " ")
+(defpoll backlight :interval "1s" "~/.config/eww/scripts/getbacklight")
+
+; volume var
+(defvar volume_icon "奔 ")
+(deflisten volume :initial 0 "~/.config/eww/scripts/getvolume")
+
+; music var
+(defvar play_icon " ")
+(defvar music_title "")
+(defvar music_artist "")
+(defvar music_art "")
+(defvar music_player "")
+(deflisten music_position "~/.config/eww/scripts/getplayerinfo -p")
+(deflisten music_info "~/.config/eww/scripts/getplayerinfo")
+(deflisten visual_bar "~/.config/eww/scripts/visualizer.sh")
+
+; network var
+(defvar network_icon "")
+(defpoll network_info :interval "5s" "~/.config/eww/scripts/getnetworkstate")
+
+; battery info var
+(defvar battery_icon "")
+(defpoll battery_info :interval "5s" "~/.config/eww/scripts/getbatteryinfo")
+(defpoll battery_widget :interval "5s" "~/.config/eww/scripts/getbatteryinfo -e")
+
+; old battery info var
+(defvar battery_per "")
+(defvar battery_state "")
+(defvar mouse_per 0)
+(defvar mouse_state "")
+(defvar keyboard_per 0)
+(defvar keyboard_state "")
+(defpoll getBatteryInfo :interval "5s" "~/.config/eww/scripts/getbatteryinfo")
+
+; date var
+; (defpoll date :interval "1s" 'date "+%b %d %H:%M"')
+(defpoll date :interval "1s" 'date "+%H:%M"')
+(defpoll second :interval "1s" 'date "+%S"')
+(defpoll date_all :interval "1s" 'date "+%Y %A %B %d"')
+
+;wm var
+(deflisten wmtags "~/.config/eww/scripts/getleftwmstate")
+(deflisten titlename '~/.config/eww/scripts/getworkspaceinfo')

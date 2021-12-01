@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+action=$1
+if [[ "$action" == "up" ]];then
+    leftwm command "FocusPreviousTag"
+else
+    leftwm command "FocusNextTag"
+fi
+    

@@ -1,0 +1,43 @@
+export TERMINAL=/usr/local/bin/st
+export VISUAL=/usr/bin/nvim
+export EDITOR=/usr/bin/nvim
+export PATH="$HOME/.local/bin/Scripts:$HOME/.local/bin:${PATH}"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
+export CALCHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/calc_history"
+export SQLITE_HISTORY="${XDG_CACHE_HOME:-$HOME/.cache}/sqlite_history"
+export PYTHONSTARTUP="${XDG_CONFIG_HOME:-$HOME/.config}/pythonstartup.py"
+export MANPATH="$(manpath -g):${XDG_DATA_HOME:-$HOME/.local/share}/man"
+export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wineprefixes/default"
+export CUDA_CACHE_PATH="${XDG_CACHE_HOME:-$HOME/.cache}/nv"
+export MPLAYER_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/mplayer"
+export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME:-$HOME/.config}/java"
+# -Djava.library.path=${XDG_DATA_HOME:-$HOME/.local/share}/swt"
+export NUGET_PACKAGES="${XDG_CACHE_HOME:-$HOME/.cache}/NuGetPackages"
+export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}/gnupg"
+export GPODDER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/gPodder"
+export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc"
+
+
+# golang pkg
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export PATH="$GOPATH/bin:$PATH"
+
+# conda initialize
+export CONDARC="${XDG_CONFIG_HOME:-$HOME/.config}/conda/condarc"
+if [ -f "/home/arux/miniconda3/etc/profile.d/conda.sh" ];then
+    . "/home/arux/miniconda3/etc/profile.d/conda.sh"
+else
+    export PATH="/home/arux/miniconda3/bin:$PATH"
+fi
+
+# cargo path
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
+case ":${PATH}:" in
+    *:"$CARGO_HOME/bin":*);;
+    *) export PATH="$CARGO_HOME/bin:$PATH";;
+esac

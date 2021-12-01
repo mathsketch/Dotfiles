@@ -1,0 +1,74 @@
+#! /bin/sh
+
+#autostart 
+export XDG_SESSION_DESKTOP=bspwm
+export _JAVA_AWT_WM_NONREPARENTING=1
+wmname LG3D
+
+$HOME/.config/bspwm/startup.sh
+
+$HOME/.config/eww/launch.sh
+# $HOME/.config/polybar/launch.sh
+
+pgrep -x sxhkd || sxhkd &
+
+bspc monitor -d          
+
+bspc config normal_border_color "#7c6f64"
+bspc config active_border_color "#d79921"
+bspc config focused_border_color "#f2e5bc"
+bspc config presel_feedback_color "#3c3836"
+
+
+bspc config border_width            5
+bspc config window_gap              10
+bspc config top_padding             35
+bspc config right_padding           0
+bspc config bottom_padding          0
+bspc config left_padding            0
+bspc config top_monocle_padding     10
+bspc config right_monocle_padding   10
+bspc config bottom_monocle_padding  10
+bspc config left_monocle_padding    10
+
+bspc config split_ratio             0.5
+bspc config borderless_monocle      true
+bspc config gapless_monocle         true
+bspc config single_monocle          true
+bspc config focus_follows_pointer   true
+bspc config automatic_scheme        alternate
+# bspc config initial_polarity first_child
+bspc config external_rules_command   "{{ .chezmoi.homeDir }}/.config/bspwm/external_rules"
+
+bspc desktop ^2 -l monocle
+
+# setting cursor
+xsetroot -cursor_name left_ptr
+
+# application in wm config
+bspc rule -a Google-chrome desktop=\^2.!occupied
+bspc rule -a Microsoft-edge desktop=\^2.!occupied
+bspc rule -a Surf state=tiled
+bspc rule -a St desktop=\^3.!occupied follow=on
+bspc rule -a Steam desktop=^7
+bspc rule -a netease-cloud-music desktop=^8 state=pseudo_tiled
+bspc rule -a Netease-cloud-music-gtk desktop=^8 state=pseudo_tiled
+bspc rule -a musicbox state=floating sticky=on border=off manage=on
+bspc rule -a Screenkey manage=off
+bspc rule -a Dunst manage=off
+bspc rule -a Conky desktop=^1 manage=off sticky=off state=floating border=off
+bspc rule -a Pavucontrol state=floating
+bspc rule -a stalonetray border=off manage=off
+bspc rule -a Anki state=floating
+bspc rule -a flameshot state=floating layer=normal
+bspc rule -a Peek state=floating
+bspc rule -a wps desktop=^6
+bspc rule -a wpp desktop=^6
+bspc rule -a et desktop=^6
+bspc rule -a jetbrains-idea-ce desktop=^4
+bspc rule -a Genymotion desktop=^10
+bspc rule -a GoldenDict state=floating
+bspc rule -a VirtualBoxVM desktop=^10
+bspc rule -a VirtualBox desktop=^10 state=floating
+bspc rule -a 'VirtualBox Manager' desktop=^10 state=floating
+bspc rule -a 'org.jackhuang.hmcl.Launcher' desktop=^7 state=pseudo_tiled border=off

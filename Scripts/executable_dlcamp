@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+if [ -z "$(command -v bandcamp-dl)" ];then
+    echo -e "No cammand bandcamp-dl!\nPlease visit https://github.com/iheanyi/bandcamp-dl"
+    exit 1;
+elif [ -n "$1" ];then
+    bandcamp-dl --embed-art --keep-spaces --base-dir "./" --template "%{album}/%{title}" "$1"
+    echo "complete"
+else
+    echo "please input url"
+fi

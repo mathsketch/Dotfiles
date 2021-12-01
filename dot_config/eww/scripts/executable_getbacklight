@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+[ -f "/usr/bin/light" ] && light=$(light -G | cut -d "." -f 1) || exit 1;
+
+update() {
+    if [ "$light" -ge 66 ];then
+        icon=" "
+    elif [ "$light" -ge 33 ];then
+        icon=" "
+    else
+        icon=" "
+    fi
+
+    eww update backlight_icon="$icon"
+}
+
+case "$1" in
+    set) 
+        light -S "$2"
+        update;;
+    *) 
+        echo "$light"
+        update;;
+esac

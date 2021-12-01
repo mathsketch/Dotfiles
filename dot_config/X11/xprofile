@@ -1,0 +1,46 @@
+#!/bin/sh
+XCONFIGDIR="$HOME/.config/X11"
+
+if [ -f "$XCONFIGDIR/xmodmap" ]; then
+    /usr/bin/xmodmap "$XCONFIGDIR/xmodmap"
+fi
+
+if [ -f "$XCONFIGDIR/xresources" ]; then
+    /usr/bin/xrdb -merge "$XCONFIGDIR/xresources"
+fi
+
+# lang env
+export LANG=zh_CN.UTF-8
+export LC_ALL=zh_CN.UTF-8
+
+# fcitx input method
+export GTK_IM_MODULE="fcitx"
+export QT_IM_MODULE="fcitx"
+export XMODIFIERS="@im=fcitx"
+export SDL_IM_MODULE="fcitx"
+export INPUT_METHOD="fcitx"
+export GLFW_IM_MODULE="ibus"
+# export KDEWM=/usr/bin/bspwm
+
+# ui scale
+# export GDK_SCALE=2
+# export GDK_DPI_SCALE=
+# export QT_AUTO_SCREEN_SCALE_FACTOR=1
+# export QT_SCREEN_SCALE_FACTORS=1.5
+# export QT_SCALE_FACTOR
+
+# ui uniform
+# export DESKTOP_SESSION=gnome
+export QT_QPA_PLATFORMTHEME=gnome
+
+# nvidia
+# export GBM_BACKEND=nvidia-drm
+# export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
+export EGL_PLATFORM=x11
+
+export ERRFILE="${XDG_CACHE_HOME:-$HOME/.cache}/X11/xsession-errors"
+export ICEAUTHORITY="${XDG_CACHE_HOME:-$HOME/.cache}/ICEauthority"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
+export VSCODE_PORTABLE="${XDG_CONFIG_HOME:-$HOME/.config}/vscode"
+# export KDEHOME="${XDG_CONFIG_HOME:-$HOME/.config}/kde"

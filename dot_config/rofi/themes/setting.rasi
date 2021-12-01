@@ -1,0 +1,208 @@
+configuration {
+    show-icons: 					false;
+    font:                           "FiraCode Nerd Font 12";
+    /* modi:                           "setting,configuration"; */
+    display-configuration: 			"";
+    display-setting: 				"";
+}
+
+@theme "scheme/gruvbox.rasi"
+
+window {
+    background-color:               @ds;
+    padding: 						0px;
+    width: 							40%;
+    location:                       north;
+}
+
+mainbox {
+    background-color:               @tp;
+    border: 						0px;
+    border-color: 					@tp;
+    padding: 						0%;
+    margin:                         1.5% 0.6% 1.5%;
+    children:                       [ inputbar,message,listview,mode-switcher ];
+}
+
+inputbar {
+    spacing:    					0px;
+    text-color: 					@wh;
+    background-color:               @do;
+    border-radius:                  4px;
+    children: 						[ prompt,entry,num-filtered-rows,textbox-num-sep,num-rows ];
+}
+
+prompt {
+    border: 						4px;
+    border-color:                   @aq;
+    text-color: 					@dh;
+    font:                           "FiraCode Nerd Font 15";
+    background-color:               @aq;
+	padding: 						0.2% 0.65% 0.2% 0.5%;
+}
+
+entry {
+    text-color: 					@lg;
+    background-color:               @do;
+    border:                         4px;
+    border-color:                   @do;
+    placeholder-color:              @sg;
+    placeholder:                    "Search...";
+    horizontal-align:               0;
+    padding:                        0.5% 0% 0% 0.5%;
+    margin:                         0px 0px 0px 2px;
+    expand:                         true;
+    blink:                          true;
+    cursor:                         text;
+}
+
+num-filtered-rows {
+    expand:                         false;
+    text-color:                     @wh;
+    background-color:               @do;
+    padding:                        0.5% 0% 0% 0.5%;
+    border:                         4px;
+    border-color:                   @do;
+}
+
+textbox-num-sep {
+    expand:                         false;
+    str:                            "/";
+    text-color:                     @wh;
+    background-color:               @do;
+    padding:                        0.5% 0% 0% 0%;
+    margin:                         0% -0.2%;
+    border:                         4px;
+    border-color:                   @do;
+}
+
+num-rows {
+    expand:                         false;
+    text-color:                     @wh;
+    background-color:               @do;
+    padding:                        0.5% 0.5% 0% 0%;
+    border:                         4px;
+    border-color:                   @do;
+}
+
+listview {
+    columns:                        2;
+    border: 						0px;
+    border-color: 					@tp;
+    background-color:               @ds;
+    spacing: 						5px;
+    scrollbar: 						false;
+    padding: 						1% 0% 0%;
+}
+
+element {
+    padding: 						5px;
+    background-color:               @dm;
+    cursor:                         pointer;
+}
+
+element-text {
+    text-color:                     @wh;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    background-color:               @dm;
+    highlight:                      @highlight;
+    border: 						0px;
+    border-radius: 					0px;
+    padding: 						4px;
+    cursor:                         pointer;
+}
+
+element-text active {
+    text-color:                     @yl;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+    background-color:               @dm;
+    highlight:                      @highlight;
+    padding: 						8px;
+    cursor:                         pointer;
+}
+
+element-text selected.active {
+    background-color: 				@yl;
+    text-color:       				@dh;
+    highlight:                      @highlight-alt;
+}
+
+element-text selected.urgent {
+    background-color: 				@rd;
+    text-color:       				@lg;
+    highlight:                      @highlight-alt;
+}
+
+element selected.active{
+    background-color: 				@yl;
+    border:                         2px;
+    border-radius:                  4px;
+    border-color:                   @yl;
+}
+
+element selected.urgent{
+    background-color: 				@rd;
+    border:                         2px;
+    border-radius:                  4px;
+    border-color:                   @rd;
+}
+
+element-text selected {
+    background-color: 				@aq;
+    text-color:       				@dh;
+    highlight:                      @highlight-alt;
+}
+
+element selected {
+    background-color: 				@aq;
+    border:                         2px;
+    border-radius:                  4px;
+    border-color:                   @aq;
+}
+
+message {
+    orientation:                    horizontal;
+    spacing:                        0px;
+    background-color:               @ds;
+    border-radius:                  4px;
+    padding:                        0px;
+    margin:                         8px 0px 0px;
+}
+
+textbox {
+    expand:                         true;
+    text-color:                     @yl;
+    background-color:               @dm;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+}
+
+mode-switcher {
+    orientation:                    horizontal;
+    spacing:                        0px;
+    background-color:               @ds;
+}
+
+button {
+    background-color:             	@gy;
+    padding: 						5px;
+    margin:                         7px;
+    text-color: 					@dh;
+    border: 						2px;
+    border-radius: 					10px;
+    border-color: 					@ds;
+    cursor:                         pointer;
+}
+
+button selected {
+    background-color:             	@gn;
+    text-color: 					@dh;
+    border: 						4px;
+    border-radius: 					10px;
+    border-color: 					@gn;
+    cursor:                         pointer;
+}
+
+/* vim:ft=css

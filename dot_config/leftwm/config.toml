@@ -1,0 +1,128 @@
+modkey = "Mod4"
+mousekey = "Mod4"
+workspaces = [
+    { y = 0, x = 0, height = 1080, width = 1920 },
+]
+layout_mode = "Tag"
+disable_tile_drag = false
+insert_behavior = "Top"
+# max_window_width = 0.4
+tags = [ " ", " ", " ", " ", " ", " ", " ", " ", " ", " " ]
+layouts = ["MainAndVertStack", "MainAndDeck", "GridHorizontal", "Monocle"]
+scratchpad = [
+    { name = "terminal", value = "st", x = 300, y = 300, height = 600, width = 1320 },
+    { name = "ncmpcpp", value = "st -A 100 -e mpp", x = 45, y = 652, height = 388, width = 1105 },
+]
+disable_current_tag_swap = false
+focus_behaviour = "Sloppy"
+focus_new_windows = true
+window_rules = [
+  { window_class = "GoldenDict", spawn_floating = true },
+  { window_class = "Tint2conf", spawn_floating = true },
+  { window_class = "flameshot", spawn_floating = true },
+  { window_class = "Peek", spawn_floating = true },
+  { window_class = "Anki", spawn_floating = true },
+  { window_class = "Google-chrome", spawn_on_tag = 2 },
+  { window_class = "Microsoft-edge", spawn_on_tag = 2 },
+  { window_class = "jetbrains-idea-ce", spawn_on_tag = 2 },
+  { window_class = "wps", spawn_on_tag = 6 },
+  { window_class = "wpp", spawn_on_tag = 6 },
+  { window_class = "et", spawn_on_tag = 6 },
+  { window_class = "Steam", spawn_on_tag = 7, spawn_floating = false },
+  { window_title = "Steam", spawn_on_tag = 7, spawn_floating = false },
+  { window_class = "netease-cloud-music", spawn_on_tag = 8, spawn_floating = true },
+  { window_class = "Netease-cloud-music-gtk", spawn_on_tag = 8, spawn_floating = true },
+  { window_class = "VirtualBoxVM", spawn_on_tag = 10 },
+  { window_class = "VirtualBox", spawn_on_tag = 10 },
+  { window_class = "VirtualBox Manager", spawn_on_tag = 10, spawn_floating = true },
+]
+
+keybind = [
+    { command = "HardReload", modifier = ["modkey", "Shift", "Mod1"], key = "r" },
+    { command = "SoftReload", modifier = ["modkey", "Mod1"], key = "r" },
+    # layout
+    { command = "NextLayout", modifier = ["modkey", "Shift"], key = "period" },
+    { command = "PreviousLayout", modifier = ["modkey", "Shift"], key = "comma" },
+    { command = "SetLayout", value = "MainAndVertStack", modifier = ["modkey"], key = "s" },
+    { command = "SetLayout", value = "MainAndDeck", modifier = ["modkey"], key = "d" },
+    { command = "SetLayout", value = "GridHorizontal", modifier = ["modkey"], key = "g" },
+    { command = "SetMarginMultiplier", value = "1.0", modifier = ["modkey", "Shift"], key = "m" },
+    { command = "SetMarginMultiplier", value = "0.25", modifier = ["modkey"], key = "m" },
+    { command = "IncreaseMainWidth", value = "2", modifier = ["modkey", "Shift"], key = "Up" },
+    { command = "DecreaseMainWidth", value = "2", modifier = ["modkey", "Shift"], key = "Down" },
+    # window
+    { command = "CloseWindow", modifier = ["modkey"], key = "w" },
+    { command = "ToggleFloating", modifier = ["modkey"], key = "e" },
+    { command = "ToggleSticky", modifier = ["modkey"], key = "p" },
+    { command = "ToggleFullScreen", modifier = ["modkey"], key = "f" },
+    { command = "ToggleScratchPad", value = "terminal", modifier = ["modkey", "Shift"], key = "Return" },
+    { command = "ToggleScratchPad", value = "ncmpcpp", modifier = ["modkey"], key = "u" },
+    # move focus
+    { command = "MoveWindowUp", modifier = ["modkey", "Shift"], key = "k" },
+    { command = "MoveWindowDown", modifier = ["modkey", "Shift"], key = "j" },
+    { command = "FocusWindowUp", modifier = ["modkey"], key = "k" },
+    { command = "FocusWindowDown", modifier = ["modkey"], key = "j" },
+    { command = "FocusWorkspaceNext", modifier = ["modkey"], key = "l" },
+    { command = "FocusWorkspacePrevious", modifier = ["modkey"], key = "h" },
+    { command = "FocusWindowUp", modifier = ["modkey"], key = "Up" },
+    { command = "FocusWindowDown", modifier = ["modkey"], key = "Down" },
+    { command = "FocusWindowTop", modifier = ["modkey"], key = "c" },
+    { command = "MoveWindowTop", modifier = ["modkey", "Shift"], key = "c" },
+    { command = "MoveWindowToNextWorkspace", modifier = ["modkey", "Shift"], key = "Right" },
+    { command = "MoveWindowToPreviousWorkspace", modifier = ["modkey", "Shift"], key = "Left" },
+    { command = "MoveToLastWorkspace", modifier = ["modkey", "Shift"], key = "Tab" },
+    # tag
+    { command = "GotoTag", value = "1", modifier = ["modkey"], key = "1" },
+    { command = "GotoTag", value = "2", modifier = ["modkey"], key = "2" },
+    { command = "GotoTag", value = "3", modifier = ["modkey"], key = "3" },
+    { command = "GotoTag", value = "4", modifier = ["modkey"], key = "4" },
+    { command = "GotoTag", value = "5", modifier = ["modkey"], key = "5" },
+    { command = "GotoTag", value = "6", modifier = ["modkey"], key = "6" },
+    { command = "GotoTag", value = "7", modifier = ["modkey"], key = "7" },
+    { command = "GotoTag", value = "8", modifier = ["modkey"], key = "8" },
+    { command = "GotoTag", value = "9", modifier = ["modkey"], key = "9" },
+    { command = "GotoTag", value = "10", modifier = ["modkey"], key = "0" },
+    { command = "MoveToTag", value = "1", modifier = ["modkey", "Shift"], key = "1" },
+    { command = "MoveToTag", value = "2", modifier = ["modkey", "Shift"], key = "2" },
+    { command = "MoveToTag", value = "3", modifier = ["modkey", "Shift"], key = "3" },
+    { command = "MoveToTag", value = "4", modifier = ["modkey", "Shift"], key = "4" },
+    { command = "MoveToTag", value = "5", modifier = ["modkey", "Shift"], key = "5" },
+    { command = "MoveToTag", value = "6", modifier = ["modkey", "Shift"], key = "6" },
+    { command = "MoveToTag", value = "7", modifier = ["modkey", "Shift"], key = "7" },
+    { command = "MoveToTag", value = "8", modifier = ["modkey", "Shift"], key = "8" },
+    { command = "MoveToTag", value = "9", modifier = ["modkey", "Shift"], key = "9" },
+    { command = "MoveToTag", value = "10", modifier = ["modkey", "Shift"], key = "0" },
+    { command = "FocusNextTag", modifier = ["modkey"], key = "bracketright" },
+    { command = "FocusPreviousTag", modifier = ["modkey"], key = "bracketleft" },
+    # { command = "FocusNextTag", modifier = ["modkey"], key = "Pointer_Button5" },
+    # { command = "FocusPreviousTag", modifier = ["modkey"], key = "Pointer_Button4" },
+    # { command = "SwapTags", modifier = ["modkey"], key = "Tab" },
+    { command = "ReturnToLastTag", modifier = ["modkey"], key = "Tab" },
+    { command = "RotateTag", modifier = ["modkey"], key = "r" },
+    # Exec
+    { command = "Execute", value = """ leftwm command "SetLayout $(echo -n "MainAndDeck,MainAndVertStack,MainAndHorizontalStack,GridHorizontal,EvenHorizontal,EvenVertical,Fibonacci,LeftMain,CenterMain,CenterMainFluid,CenterMainBalanced,Monocle,RightWiderLeftStack,LeftWiderRightStack" |
+            rofi -sep ',' -p 'Layout' -dmenu -i)" """, modifier = ["modkey"], key = "a" },
+    { command = "Execute", value = """ [ "$(leftwm-state -w 0 -q -s "{{ workspace.layout }}")" == "Monocle" ] && 
+            leftwm command "SetLayout MainAndVertStack" || leftwm command "SetLayout Monocle" """, modifier = ["modkey", "Shift"], key = "f" },
+    { command = "Execute", value = "rofi -show drun -theme-str '*{tc:@yl;}' -show-icons -selected-row 0", modifier = ["Mod1"], key = "space" },
+    { command = "Execute", value = "$HOME/.config/rofi/bin/cliprint.sh", modifier = ["Mod1"], key = "p" },
+    { command = "Execute", value = "LC_ALL=en_US.UTF-8 $HOME/.config/rofi/bin/setting.sh", modifier = ["Control", "Mod1"], key = "space" },
+    { command = "Execute", value = "$HOME/.config/rofi/bin/menu_powermenu.sh", modifier = ["modkey", "Mod1"], key = "Delete" },
+    { command = "Execute", value = "loginctl kill-session $XDG_SESSION_ID", modifier = ["modkey", "Shift"], key = "q" },
+    { command = "Execute", value = "st", modifier = ["modkey"], key = "Return" },
+    # media key
+    { command = "Execute", value = "$HOME/file/Script/touchpad_toggle.sh", modifier = [], key = "XF86XK_TouchpadToggle" },
+    { command = "Execute", value = "notify -vm", modifier = [], key = "XF86XK_AudioMute" },
+    { command = "Execute", value = "notify -vi 5", modifier = [], key = "XF86XK_AudioRaiseVolume" },
+    { command = "Execute", value = "notify -vd 5", modifier = [], key = "XF86XK_AudioLowerVolume" },
+    { command = "Execute", value = "notify -li 2", modifier = [], key = "XF86XK_MonBrightnessUp" },
+    { command = "Execute", value = "notify -ld 2", modifier = [], key = "XF86XK_MonBrightnessDown" },
+    { command = "Execute", value = "flameshot gui", modifier = [], key = "Print" },
+    { command = "Execute", value = "rofi -show calc -modi calc -no-show-match -normalize-match -no-sort -selected-row 0 -no-persist-history -calc-command 'greenclip print '{result}''", modifier = [], key = "XF86XK_Calculator" },
+    # Playerctl
+    { command = "Execute", value = "playerctl previous", modifier = ["Control", "Mod1"], key = "Left" },
+    { command = "Execute", value = "playerctl next", modifier = ["Control", "Mod1"], key = "Right" },
+    { command = "Execute", value = "playerctl volume 0.02+", modifier = ["Control", "Mod1"], key = "Up" },
+    { command = "Execute", value = "playerctl volume 0.02-", modifier = ["Control", "Mod1"], key = "Down" },
+    { command = "Execute", value = "playerctl play-pause", modifier = ["Control", "Mod1"], key = "p" },
+]

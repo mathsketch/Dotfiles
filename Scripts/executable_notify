@@ -1,0 +1,65 @@
+#!/usr/bin/bash
+icon_dir="${XDG_DATA_HOME:-$HOME/.local/share}/icons/other"
+
+# backlight
+
+while getopts "lvmi:d:" opt;do
+    case "$opt" in
+        l) cmd="backlight";;
+        v) cmd="volume";;
+        i) args="inc $OPTARG";;
+        d) args="dec $OPTARG";;
+        m) args="mute"
+    esac
+done
+
+backlight() {
+    if [ "$1" == "inc" ];then
+        light -A "$2"
+    elif [ "$1" == "dec" ];then
+        light -U "$2"
+    else
+        exit 1;
+    fi
+
+    value=$(light -G | cut -d "." -f 1)
+    if [ "$value" -ge 66 ];then
+        icon="${icon_dir}/brightness_high.svg"
+    elif [ "$value" -ge 33 ];then
+        icon="${icon_dir}/brightness_low.svg"
+    else
+        icon="${icon_dir}/brightness_medium.svg"
+    fi
+
+    content="Backlight at ${value}%"
+}
+
+volume() {
+    if [ "$1" == "inc" ];then
+        pamixer -i "$2"
+    elif [ "$1" == "dec" ];then
+        pamixer -d "$2"
+    elif [ "$1" == "mute" ];then
+        pulsemixer --toggle-mute
+    else
+        exit 1;
+    fi
+
+    muted=$(pamixer --get-mute)
+    value=$(pamixer --get-volume)
+    if [ "$muted" == "true" ];then
+        icon="${icon_dir}/volume_mute.svg"
+    elif [ "$value" -ge 66 ];then
+        icon="${icon_dir}/volume_high.svg"
+    elif [ "$value" -le 33 ];then
+        icon="${icon_dir}/volume_low.svg"
+    else
+        icon="${icon_dir}/volume_medium.svg"
+    fi
+
+    content="Volume at ${value}%"
+}
+
+$cmd $args
+notify-send "$content" -h int:value:"$value" \
+    -i "$icon" -h string:x-dunst-stack-tag:"$cmd"

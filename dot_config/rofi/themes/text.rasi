@@ -1,0 +1,105 @@
+configuration {
+    show-icons:                     false;
+    drun-display-format:            "{name}";
+}
+
+@theme "scheme/gruvbox.rasi"
+
+window {
+    fullscreen:                     false;
+    transparency:                  "real";
+    background-color:               @ds;
+    text-color:                     @fg;
+	border:							0px;
+	border-color:					@ds;
+    border-radius:                  0px;
+	width:							30%;
+    location:                       center;
+    x-offset:                       0;
+    y-offset:                       0;
+}
+
+mainbox {
+    background-color:               @tp;
+	border:							0% 0% 0% 0%;
+    border-radius:                  0% 0% 0% 0%;
+	border-color:					@tp;
+    children:                       [ inputbar, listview ];
+    spacing:                       	1%;
+    padding:                        1% 0.5% 1% 0.5%;
+}
+
+inputbar {
+	children: 						[ prompt, entry ];
+    background-color:               @ds;
+    text-color:                     @fg;
+    expand:                         false;
+    border-radius:                  4px;
+}
+
+prompt {
+    enabled: 						true;
+    font:                           "FiraCode Nerd Font 15";
+	  padding: 						0.5% 0.6% 0.5% 0.5%;
+	  background-color: 				@bl;
+	  text-color: 					@dh;
+    border: 						2px;
+    border-color:                   @bl;
+}
+
+entry {
+    background-color:               @do;
+    text-color:                     @lg;
+    placeholder-color:              @sg;
+    border: 						2px;
+    border-color:                   @do;
+    expand:                         true;
+    horizontal-align:               0;
+    placeholder:                    "Search...";
+    padding:                        0.75% 0% 0% 0.5%;
+    blink:                          true;
+    cursor:                         text;
+}
+
+listview {
+    background-color:               @ds;
+    columns:                        1;
+    lines:                          15;
+    spacing:                       	0.5%;
+    cycle:                          true;
+    dynamic:                        true;
+    layout:                         vertical;
+}
+
+element {
+    background-color:               @dm;
+    text-color:                     @fg;
+    orientation:                    horizontal;
+    border-radius:                  4px;
+}
+
+element-text {
+    background-color:               @dm;
+    text-color:                     @wh;
+    highlight:                      @highlight;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+	border:							0% 0% 0% 0.3%;
+    border-radius:                  0px;
+    border-color:                  	@dw;
+    padding:                        0.7%;
+    cursor:                         pointer;
+}
+
+element selected {
+    background-color:               @dm;
+	border:							0% 0% 0% 0.3%;
+    border-color:                  	@bl;
+}
+
+element-text selected {
+    background-color:               @dm;
+    text-color:                     @bl;
+}
+
+/* vim:ft=css

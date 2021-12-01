@@ -1,0 +1,36 @@
+/** Basic config file **/
+configuration {
+    font                      : "FiraCode Nerd Font 13";
+    /* font: "DejaVu Sans Mono for Powerline 12"; */
+    modi                      : "window,run,ssh,windowcd,drun,combi,keys,filebrowser";
+    combi-modi                : "window,run";
+   	matching                  : "glob";
+    case-sensitive            : false;
+    normalize-match           : false;
+    show-icons                : false;
+    icon-theme                : "oomox-gruvbox";
+   	/* application-fallback-icon : "unknown"; */
+    terminal                  : "st";
+    hover-select              : true;
+    auto-select               : false;
+    me-select-entry           : "";
+    me-accept-entry           : "MousePrimary";
+    kb-page-prev              : "ScrollUp";
+    kb-page-next              : "ScrollDown";
+    ml-row-up                 : "";
+    ml-row-down               : "";
+    scroll-method             : 0;
+   	max-history-size          : 100;
+    cache-dir                 : "/home/arux/.cache/rofi";
+    drun-reload-desktop-cache : true;
+   	drun-use-desktop-cache    : true;
+    steal-focus               : true;
+
+    inputchange {
+      action: "kb-row-first";
+    }
+}
+
+@theme "list"
+
+/* vim:ft=css

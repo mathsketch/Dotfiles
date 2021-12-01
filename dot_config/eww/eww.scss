@@ -1,0 +1,335 @@
+$fg     : #f2e5bc;
+$bg     : #32302f;
+$bga    : #504945;
+$fga    : #928374;
+$red    : #cc241d;
+$green  : #98971a;
+$yellow : #d79921;
+$blue   : #458588;
+$purple : #b16286;
+$aqua   : #689d6a;
+$orange : #d65d0e;
+
+* {
+    all: unset;
+}
+
+window {
+    font-family: FiraCode Nerd Font;
+    font-size: 1.2rem;
+}
+
+.metric scale {
+    all: unset;
+    trough {
+        border-radius: 5px;
+        min-width: 70px;
+        min-height: 4px;
+        background-color: $bga;
+        highlight {
+            border-radius: 5px;
+            background-color: $red;
+        }
+    }
+    &.low highlight { background-color: $green; }
+    &.normal highlight { background-color: $orange; }
+    &.high highlight { background-color: $red; }
+    &.charging highlight { background-color: $yellow; }
+}
+
+circular-progress {
+    &.low { color: $green; }
+    &.normal { color: $orange; }
+    &.high { color: $red; }
+    &.charging { color: $yellow; }
+    background-color: $bga;
+}
+
+tooltip {
+    color: $fg;
+    background-color: $bg;
+}
+
+calendar {
+    font-size: 0.9em;
+    font-weight: bold;
+    padding-top: 5px;
+    .highlight {
+        color: $aqua;
+        font-weight: bold;
+    }
+    .header {
+        color: $blue;
+        font-weight: bold;
+    }
+    :hover {
+        background-color: $bga;
+    }
+    :indeterminate {
+        color: $fga;
+    }
+    :selected {
+        color: $yellow;
+        background-color: $bga;
+        border-radius: 50px;
+    }
+}
+
+.cal {
+    padding: 10px 15px;
+    color: $fg;
+    background-color: $bg;
+}
+
+.sep {
+    color: $fga;
+    margin: 4px 2px;
+    border: 2px solid $fga;
+    border-radius: 10px;
+}
+
+.workspaces {
+    margin-top: 4px;
+    .ws-button {
+        color: $fga;
+    }
+    .ws-button-mine {
+        color: $yellow;
+    }
+    .ws-button-visible {
+        color: $yellow;
+    }
+    button:hover { color: $yellow; }
+}
+
+.leftside {
+    padding-left: 10px;
+}
+
+.rightside {
+    padding-right: 15px;
+    .power-button:hover { color: $red; }
+    scale { 
+        margin: 0px 0px 1px 3px; 
+        trough { min-height: 15px; }
+    }
+    .volume {
+        margin-left: -2px;
+        .ebtn { margin-top: 2px; }
+        :hover { color: $blue; }
+        highlight { background-color: $blue; }
+    }
+    .backlight {
+        margin: 0px -5px;
+        highlight { background-color: $yellow; }
+    }
+    .battery {
+        padding: 0px 4px 0px 6px;
+        font-size: 1.3rem;
+    }
+    .network {
+        font-family: wicon;
+        margin-right: -0.4rem;
+    }
+}
+
+.menu-button {
+    font-size: 1.4rem;
+    &:hover { color: $blue; }
+    background-color: $bga;
+    margin: 5px 0px;
+    padding: 0px 5px 0px 10px;
+    border-radius: 10px;
+}
+
+.sub-button {
+    margin: 2px 5px 0px 4px;
+    &:hover { color: $purple }
+}
+
+.info-metric {
+    scale trough{ min-height: 3px; }
+    .disk-scale { min-width: 95px; }
+
+}
+
+.vinfo-metric {
+    scale { 
+        margin: 1px 0px 3px 8px;
+        trough{ min-width: 4px; }
+    }
+}
+
+.scircle {
+    padding-bottom: 1px;
+    margin-right: 4px;
+    label { 
+        padding-left: 9px;
+        padding-top: 1px;
+        color: $fg; 
+    }
+}
+
+.visualizer {
+    color: $fga;
+    padding-top: 8px;
+}
+
+.playerctl {
+    font-size: 1.5rem;
+    color: $fg;
+    margin-top: 1px;
+    .music-title {
+        font-size: 0.9rem;
+        padding-right: 10px;
+        margin-top: 2px;
+    }
+    button:hover { 
+        color: $aqua; 
+        .music-title { text-decoration: underline double $fga; }
+    }
+}
+
+.date {
+    font-weight: bold;
+    background-color: $bga;
+    padding: 3px 10px 0px;
+    margin: 5px -8px 5px -5px;
+    color: $fg;
+    border-radius: 10px;
+    :hover { color: $yellow; }
+}
+
+.titlebar {
+    font-size: 1.1rem;
+    padding: 0px 20px 0px 10px;
+    border-radius: 0px 17px 17px 0px;
+    background-color: $bg;
+    color: $fg;
+    .title-label {
+        border-radius: 20px;
+    }
+}
+
+.wmbar {
+    font-size: 1.5rem;
+    border-radius: 0px 17px 17px 0px;
+    padding: 0px 10px 0px 15px;
+    background-color: $bg;
+    color: $fg;
+}
+
+.side_bar {
+    border-radius: 17px 0px 0px 17px;
+    padding: 0em 0.5em;
+    background-color: $bg;
+    color: $fg;
+}
+
+.infobar {
+    font-size: 1.1rem;
+    border-radius: 17px 0px 0px 17px;
+    padding: 3px 15px 0px 20px;
+    background-color: $bg;
+    color: $fg;
+}
+
+.musicbar {
+    background-color: $bg;
+    color: $fg;
+    padding: 0px 20px;
+    border-radius: 20px;
+}
+
+.subbar {
+    background-color: $bg;
+    color: $fg;
+}
+
+.topbar {
+    background-color: $bg;
+    color: $fg;
+    .wmbar { 
+        padding: 1px 0px 0px 0px;     
+        font-size: 1.4rem;
+    }
+    .workspaces { margin-top: 5px; }
+    .musicbar { margin-top: 4px; }
+}
+
+.battery_pop {
+    color: $fg;
+    background-color: $bg;
+    padding: 5px 0px;
+    .device {
+        padding: 10px;
+    }
+    .sep { margin: 5px 10px; }
+    .progress {
+        font-size: 2.6rem;
+        label { color: $fg; }
+    }
+    .info_group {
+        margin-left: 15px;
+        label { padding: 3px 0px; }
+        .first { font-size: 1.1rem; font-weight: bold; }
+        .second { font-size: 1.1rem; font-style: italic; }
+        .third { font-size: 1.1rem; font-style: italic; }
+    }
+    .Keyboard label { margin-left: -6px; }
+}
+
+.system_pop {
+    color: $fg;
+    background-color: $bg;
+    padding: 5px;
+    .sep { margin: 5px 10px; }
+}
+
+.circle_pop {
+    padding: 10px;
+    .progress {
+        font-size: 3rem;
+        label { 
+            color: $fg; 
+            margin-left: 25px;
+        }
+    }
+    .info_group {
+        margin-left: 15px;
+        label { padding: 3px 0px; }
+        .first { font-size: 1.4rem; font-weight: bold; }
+        .second , .third { font-size: 1.1rem; font-style: italic; }
+    }
+    .disk-progress label { margin-left: 22px; }
+}
+
+.music_pop {
+    color: $fg;
+    background-color: $bg;
+    image { padding: 10px 15px; }
+    .info_group { margin: 20px 10px 0px 0px; }
+    .first { 
+        font-size: 1rem; 
+        font-weight: bold;
+        margin-bottom: 15px; 
+    }
+    .second { 
+        font-size: 1rem; 
+        margin-bottom: 18px; 
+    }
+    .music-control { 
+        font-size: 2rem;
+        .play-button { margin: 0px 0.2em 0px 0.7em; }
+        button:hover { color: $aqua; }
+        margin: 10px 0px 10px; 
+    }
+    scale trough{ 
+        min-width: 270px; 
+        min-height: 6px; 
+        highlight {
+            border-radius: 5px;
+            background-color: $green;
+        }
+    }
+}

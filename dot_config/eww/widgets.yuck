@@ -1,0 +1,250 @@
+(defwidget power []
+  (box :class "power" :space-evenly false
+    (ebtn :class "power-button" 
+          :onclick "~/.config/rofi/bin/menu_powermenu.sh &" 
+      " ")))
+
+(defwidget volume []
+  (box :class "volume" :space-evenly false :tooltip "Volume: ${volume}%"
+    (hover_revealer_left :name "volume" :var reveal_volume :spacing 10
+      (box :space-evenly false
+        (metric :name "volume"
+                :value volume
+                :onchange "pamixer --set-volume $(echo {} | sed 's/\\..*//g')"))
+      (ebtn :class "volume-button" 
+        :onclick "pamixer --toggle-mute"
+        :onrightclick "pavucontrol &"
+        volume_icon))))
+
+(defwidget backlight []
+  (box :class "backlight" :space-evenly false :tooltip "Backlight: ${backlight}%"
+    (hover_revealer_left :name "backlight" :var reveal_backlight :spacing 10
+      (box :space-evenly false
+        (metric :name "backlight"
+                :value backlight
+                :onchange "~/.config/eww/scripts/getbacklight set $(echo {} | sed 's/\\..*//g')"))
+      (label :class "backlight-label" :text backlight_icon))))
+
+(defwidget date []
+  (box :class "date" :halign "center" :space-evenly false :orientation "h"
+       :tooltip date_all
+    (hover_revealer_right :name "date" :var reveal_date :transition "slideleft"
+      (ebtn :class "date-button" :onclick "~/.config/eww/scripts/toggleww -t calendar"
+        (label :text date))
+      (ebtn :class "date-button" :onclick "~/.config/eww/scripts/toggleww -t calendar"
+        (label :text ":${second}")))))
+
+(defwidget battery []
+  (box :class "battery" :tooltip battery_info :visible {battery_icon != "" ? true : false}
+    (ebtn :class "battery-button" :onclick "~/.config/eww/scripts/toggleww -t battery_win"
+      (label :text battery_icon))))
+
+(defwidget network []
+  (box :class "network" :tooltip network_info :visible {network_icon != "" ? true : false}
+    (label :text network_icon)))
+
+(defwidget cpu_circle []
+  (box :class "cpucircle scircle"
+       :tooltip "CPU usage: ${round(EWW_CPU.avg, 0)}%"
+    (circle_info 
+      :name "cpu" :width 31
+      :onclick "~/.config/eww/scripts/toggleww -t system_win"
+      :value {round(EWW_CPU.avg, 0)}
+      :icon " ")))
+
+(defwidget ram_circle []
+  (box :class "ramcircle scircle" :space-evenly false
+       :tooltip "RAM used: ${round(EWW_RAM.used_mem_perc, 0)}%"
+    (circle_info 
+      :name "ram" :width 31 
+      :onclick "~/.config/eww/scripts/toggleww -t system_win"
+      :value {round(EWW_RAM.used_mem_perc, 0)}
+      :icon "﬙ ")))
+
+(defwidget visualizer []
+  (box :class "visualizer"
+    (label :text visual_bar)))
+
+(defwidget playerctl []
+  (box :class "playerctl" :space-evenly false :spacing 10
+    (ebtn :class "music-button" :halign "center" :tooltip music_info 
+          :active {music_player != ""} :onclick "~/.config/eww/scripts/toggleww -t music_win"
+      (label :class "music-title" :limit-width 25 
+             :text " ${music_info}")) 
+    (box :class "music-control" :halign "center" :space-evenly false
+      (ebtn :class "previous-button" :active {music_player != ""}
+            :onclick "playerctl previous &"
+        "玲 ")
+      (ebtn :class "play-button" :active {music_player != ""}  
+            :onclick "playerctl play-pause &"
+        play_icon)
+      (ebtn :class "next-button" :active {music_player != ""}
+            :onclick "playerctl next &"
+        "怜"))))
+
+
+; a separator
+(defwidget sep []
+  (box :class "sep" :halign "fill" :valign "fill"))
+
+
+; old info widgets
+(defwidget cpuinfo []
+  (box :class "cpuinfo"
+    (info :name "cpu" :icon " " 
+          :value {round(EWW_CPU.avg, 0)})))
+
+(defwidget raminfo []
+  (box :class "raminfo"
+    (info :name "ram" :icon "﬙ " 
+          :value {round(EWW_RAM.used_mem_perc, 0)})))
+
+(defwidget diskinfo []
+  (box :class "diskinfo"
+    (info :name "disk" :icon " " 
+          :value {EWW_DISK["/"].used_perc}
+          :label "${round(EWW_DISK["/"].free / 1000000000, 1)}GB")))
+
+(defwidget keyboardstate []
+  (binfo :name "keyboard" :icon " "
+         :state keyboard_state
+         :value keyboard_per))
+
+(defwidget mousestate []
+  (binfo :name "mouse" :icon " "
+         :state mouse_state
+         :value mouse_per))
+
+(defwidget batterystate []
+  (binfo :name "battery" :icon " "
+         :state battery_state
+         :value battery_per))
+
+
+
+; music module
+(defwidget musicbar []
+    (box :class "musicbar" :halign "center" :space-evenly false
+      (hover_switch_revealer :name "music" :var reveal_music :reveal {music_player != ""} :orientation "v"
+        (visualizer)
+        (playerctl))))
+
+; rightside part
+(defwidget rightside []
+  (box :class "rightside" :orientation "h" :halign "end" :spacing 8 :space-evenly false
+    (ram_circle)
+    (cpu_circle)
+    (sep)
+    (ebtn :class "sub-button" :onclick "~/.config/eww/scripts/toggleww"
+      (label :text " "))
+    (network)
+    (battery)
+    (backlight)
+    (volume)
+    (power)
+    (date)))
+
+; leftside part
+(defwidget leftside []
+  (box :class "leftside" :orientation "h" :spacing 8 :space-evenly false
+    (ebtn :class "menu-button" 
+          :onclick "rofi -show drun -theme-str '*{tc:@yl;}' -show-icons -selected-row 0 &"
+      (label :text " "))
+    (sep)
+    (wmbar)))
+
+; title
+(defwidget titlebar []
+  (box :class "titlebar" :orientation "h"  :halign "start" :space-evenly false
+    (label :class "title-label" :limit-width 40
+           :wrap true
+           :markup titlename)))
+
+; wm tags
+(defwidget wmbar []
+  (box :class "wmbar" :orientation "h" :halign "start" 
+    (eventbox :onscroll "~/.config/eww/scripts/scrolltags {}" :cursor "pointer"
+      (literal :content wmtags))))
+
+; a calendar
+(defwidget cal []
+  (box :class "cal"
+    (calendar :show-details true))) 
+
+; for popup dynamic battey info window
+(defwidget battery_pop []
+  (box :class "battery_pop" :orientation "v"
+    (literal :content battery_widget)))
+
+; (defwidget network_pop []
+;   (box :class "network_pop" :orientation "h"
+;     (label :text "wlo1:  ${round(EWW_NET["wlo1"].NET_UP / 1024, 1)}  ${round(EWW_NET["wlo1"].NET_DOWN / 1024, 1)}")))
+
+; for popup system info window
+(defwidget system_pop []
+  (box :class "system_pop" :orientation "v" :space-evenly false
+    (circle_pop 
+      :name "cpu" :value {round(EWW_CPU.avg, 0)}
+      :t1 "CPU" :t2 "Temp: ${EWW_TEMPS.CPU}°C"
+      :t3 "${round(EWW_CPU.avg, 0)}%"
+      :icon " ")
+    (sep)
+    (circle_pop 
+      :name "ram" :value {round(EWW_RAM.used_mem_perc, 0)}
+      :t1 "Memory" :t2 "${round(EWW_RAM.used_mem / 1024, 0)}MB | ${round(EWW_RAM.total_mem / 1024, 0)}MB"
+      :t3 "${round(EWW_RAM.used_mem_perc, 0)}%"
+      :icon "﬙ ")
+    (sep)
+    (circle_pop 
+      :name "disk" :value {EWW_DISK["/"].used_perc}
+      :t1 "Disk /:" :t2 "${round(EWW_DISK["/"].used / 1073741824, 1)}GB | ${round(EWW_DISK["/"].total / 1073741824, 1)}GB"
+      :t3 "${round(EWW_DISK["/"].used_perc, 0)}%"
+      :icon " ")
+    (sep)
+    (circle_pop 
+      :name "disk" :value {EWW_DISK["/home"].used_perc}
+      :t1 "Disk /home:" :t2 "${round(EWW_DISK["/home"].used / 1000000000, 1)}GB | ${round(EWW_DISK["/home"].total / 1000000000, 1)}GB"
+      :t3 "${round(EWW_DISK["/home"].used_perc, 0)}%"
+      :icon " ")))
+
+; for popup music window
+(defwidget music_pop []
+  (box :class "music_pop" :orientation "h" :space-evenly false
+    (image :image-width 180 :image-height 180  :halign "start" :path music_art)
+    (box :class "info_group" :orientation "v"  :width 300 :height 180 :valign "center" :halign "center" :space-evenly false
+      (label :class "first" :limit-width 20 :wrap true :halign "center" :text music_title)
+      (label :class "second" :limit-width 20 :wrap true :halign "center" :text music_artist)
+      (box :class "music-control" :halign "center" :space-evenly false
+        (ebtn :class "previous-button"  :active {music_player != ""}
+          :onclick "playerctl previous &"
+          "玲")
+        (ebtn :class "play-button" :active {music_player != ""} 
+              :onclick "playerctl play-pause &"
+          play_icon)
+        (ebtn :class "next-button" :active {music_player != ""} 
+          :onclick "playerctl next &"
+          "怜"))
+      (metric :name "position" :value music_position))))
+
+; main
+(defwidget topbar []
+  (centerbox :class "topbar"
+    (leftside)
+    (musicbar)
+    (rightside)))
+
+; sub
+(defwidget subbar []
+  (box :class "subbar" :valign "center"
+    (titlebar)))
+
+; old info bar layout
+(defwidget infobar []
+  (box :class "infobar" :orientation "h" :halign "end" :spacing 20 :space-evenly false
+    (raminfo)
+    (cpuinfo)
+    (diskinfo)
+    (keyboardstate)
+    (mousestate)
+    (batterystate)))
+

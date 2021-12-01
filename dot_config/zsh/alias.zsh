@@ -1,0 +1,11 @@
+alias ls="exa --icons --sort=type"
+alias la="exa --icons -a --sort=type"
+alias l="exa -la --sort=type"
+alias ll="exa -l --sort=type"
+alias todo='todo.sh'
+alias pc="proxychains -q"
+alias vimdiff="nvim -d"
+alias cz="chezmoi"
+alias czd="chezmoi cd"
+alias czf="chezmoi diff"
+alias czi="chezmoi edit"

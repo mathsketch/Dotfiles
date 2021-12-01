@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+PIDFILE="$HOME/.cache/eww/$(basename $0).pid"
+if [ -f "$PIDFILE" ];then
+    pid=$(cat "$PIDFILE")
+    kill -TERM "$pid";sleep 1
+    [ -f "$PIDFILE" ] && exit 1 || echo $$ > "$PIDFILE"
+else
+    echo $$ > "$PIDFILE"
+fi
+
+cleanup() {
+    rm -f "$PIDFILE"
+    pkill -P $$
+}
+
+trap cleanup SIGINT SIGTERM EXIT
+
+leftwm-state -w 0 -t ~/.config/leftwm/workspace.liquid &
+wait

@@ -1,0 +1,109 @@
+configuration {
+    show-icons:                     true;
+	icon-theme: 					"Papirus";
+}
+
+@theme "scheme/gruvbox.rasi"
+
+* {
+    bg:     @ds;
+    fg:     @wh;
+    tc:     @aq;
+}
+
+window {
+    transparency:                   "real";
+    background-color:               @bg;
+    text-color:                     @fg;
+	border-color:					@bg;
+	width:							53.4%;
+    location:                       center;
+}
+
+mainbox {
+    background-color:               @tp;
+    children:                       [ inputbar, listview ];
+    spacing:                       	1.5%;
+    padding:                        1.2% 0.8% 1.2% 0.8%;
+}
+
+inputbar {
+	children: 						[ prompt, entry ];
+    background-color:               @bg;
+    text-color:                     @fg;
+    border-radius:                  4px;
+    margin:                         0% 0% 0% 0%;
+}
+
+prompt {
+    font:                           "FiraCode Nerd Font 12";
+    enabled: 						true;
+	text-color: 					@dh;
+	background-color: 				@tc;
+	padding: 						0.8% 0.5% 0.8% 0.5%;
+}
+
+entry {
+    background-color:               @do;
+    text-color:                     @lg;
+    placeholder-color:              @sg;
+    placeholder:                    "Search...";
+    expand:                         true;
+    horizontal-align:               0;
+    padding:                        1% 0% 0% 0.5%;
+    blink:                          true;
+    cursor:                         text;
+}
+
+listview {
+    background-color:               @tp;
+    lines:                          1;
+    columns:                        4;
+    cycle:                          true;
+    dynamic:                        false;
+    fixed-columns:                  true;
+    layout:                         vertical;
+    padding:                        0px;
+    spacing:                        10px;
+}
+
+element {
+    background-color:               @tp;
+    text-color:                     @fg;
+    border-radius:                  0%;
+    orientation:                    vertical;
+    cursor:                         pointer;
+    spacing:                        5px;
+}
+
+element-icon {
+    background-color: 				@tp;
+    horizontal-align:               0.5;
+    size:                           240;
+    cursor:                         pointer;
+}
+
+element-text {
+    background-color:               @tp;
+    text-color:                     @fg;
+    highlight:                      @highlight;
+    horizontal-align:               0.5;
+    vertical-align:                 1;
+    padding:                        10px;
+    cursor:                         pointer;
+}
+
+element selected {
+    background-color:               @dw;
+	border:							0px 0px 5px 0px;
+    border-radius:                  4px;
+    border-color:                  	@tc;
+}
+
+element-text selected {
+    background-color:               @tp;
+    text-color:                     @tc;
+    highlight:                      @highlight-alt;
+}
+
+/* vim:ft=css

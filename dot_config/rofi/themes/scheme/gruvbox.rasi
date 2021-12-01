@@ -1,0 +1,44 @@
+/** color scheme **/
+* { 
+    rd : #cc241d;
+    gn : #98971a;
+    yl : #d79921;
+    bl : #458588;
+    pl : #b16286;
+    aq : #689d6a;
+    og : #d65d0e;
+    dy : #b57614;
+    db : #076678;
+    dh : #1d2021;
+    dm : #282828;
+    ds : #32302f;
+    do : #3c3836;
+    dw : #504945;
+    gy : #928374;
+    lg : #f9f5d7;
+    wh : #ebdbb2;
+    sg : #d5c4a150;
+    tp : #00000000;
+    highlight     : bold #fabd2f;
+    highlight-alt : bold #af3a03;
+}
+
+* {
+    bg:     @ds;
+    fg:     @wh;
+    tc:     @aq;
+}
+
+error-message {
+    border: 						0px;
+    border-color: 					@tp;
+    padding: 						1px;
+    background-color:               @ds;
+}
+
+textbox {
+    background-color:               @ds;
+    text-color: 					@wh;
+    padding:                        1%;
+}
+/* vim:ft=css

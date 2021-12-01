@@ -1,0 +1,208 @@
+configuration {
+    font:                           "FiraCode Nerd Font 12";
+}
+
+@theme "scheme/gruvbox.rasi"
+
+* {
+    bg:     @ds;
+    fg:     @wh;
+    tc:     @aq;
+}
+
+window {
+    background-color:               @bg;
+    padding: 						0px;
+    width: 							40%;
+    location:                       center;
+}
+
+mainbox {
+    background-color:               @tp;
+    border: 						0px;
+    border-color: 					@tp;
+    spacing:                        1%;
+    padding: 						0%;
+    margin:                         1.5% 0.6% 1.5%;
+    children:                       [ inputbar,message,listview ];
+}
+
+inputbar {
+    spacing:    					0px;
+    text-color: 					@fg;
+    background-color:               @do;
+    border-radius:                  4px;
+    children: 						[ prompt,entry,num-filtered-rows,textbox-num-sep,num-rows ];
+}
+
+prompt {
+    border: 						4px;
+    border-color:                   @tc;
+    text-color: 					@dh;
+    font:                           "FiraCode Nerd Font 12";
+    background-color:               @tc;
+	padding: 						0.2% 0.65% 0.2% 0.5%;
+}
+
+entry {
+    text-color: 					@lg;
+    background-color:               @do;
+    border:                         4px;
+    border-color:                   @do;
+    placeholder-color:              @sg;
+    placeholder:                    "Search...";
+    horizontal-align:               0;
+    padding:                        0.5% 0% 0% 0.5%;
+    margin:                         0px 0px 0px 2px;
+    expand:                         true;
+    blink:                          true;
+    cursor:                         text;
+}
+
+num-filtered-rows {
+    expand:                         false;
+    text-color:                     @fg;
+    background-color:               @do;
+    padding:                        0.5% 0% 0% 0.5%;
+    border:                         4px;
+    border-color:                   @do;
+}
+
+textbox-num-sep {
+    expand:                         false;
+    str:                            "/";
+    text-color:                     @fg;
+    background-color:               @do;
+    padding:                        0.5% 0% 0% 0%;
+    margin:                         0% -0.2%;
+    border:                         4px;
+    border-color:                   @do;
+}
+
+num-rows {
+    expand:                         false;
+    text-color:                     @fg;
+    background-color:               @do;
+    padding:                        0.5% 0.5% 0% 0%;
+    border:                         4px;
+    border-color:                   @do;
+}
+
+listview {
+    expand:                         true;
+    lines:                          8;
+    columns:                        1;
+    border: 						0px;
+    border-color: 					@tp;
+    background-color:               @bg;
+    dynamic:                        true;
+    fixed-height:                   true;
+    spacing: 						5px;
+    scrollbar: 						false;
+    padding:                        0.4% 0% 0%;
+    margin: 						0%;
+}
+
+element {
+    padding: 						5px;
+    background-color:               @dm;
+    border:                         1px;
+    border-radius: 					4px;
+    border-color:                   @dm;
+    cursor:                         pointer;
+}
+
+element-text {
+    text-color:                     @fg;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+    background-color:               @dm;
+    highlight:                      @highlight;
+    padding: 						8px;
+    cursor:                         pointer;
+}
+
+element-icon {
+    background-color:               @tp;
+    size:                           36;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+    padding:                        2px 0px 2px 2px;
+}
+
+element-text active {
+    text-color:                     @yl;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+    background-color:               @dm;
+    highlight:                      @highlight;
+    padding: 						8px;
+    cursor:                         pointer;
+}
+
+element-text urgent {
+    text-color:                     @rd;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+    background-color:               @dm;
+    highlight:                      @highlight;
+    padding: 						8px;
+    cursor:                         pointer;
+}
+
+element-text selected {
+    background-color: 				@tc;
+    text-color:       				@dh;
+    highlight:                      @highlight-alt;
+}
+
+element-text selected.active {
+    background-color: 				@yl;
+    text-color:       				@dh;
+    highlight:                      @highlight-alt;
+}
+
+element-text selected.urgent {
+    background-color: 				@rd;
+    text-color:       				@dh;
+    highlight:                      @highlight-alt;
+}
+
+element selected {
+    background-color: 				@tc;
+    border:                         2px;
+    border-radius:                  4px;
+    border-color:                   @tc;
+}
+
+element selected.active{
+    background-color: 				@yl;
+    border:                         2px;
+    border-radius:                  4px;
+    border-color:                   @yl;
+}
+
+element selected.urgent{
+    background-color: 				@rd;
+    border:                         2px;
+    border-radius:                  4px;
+    border-color:                   @rd;
+}
+
+message {
+    orientation:                    horizontal;
+    spacing:                        0px;
+    background-color:               @bg;
+    border-radius:                  4px;
+    padding:                        0px;
+    margin:                         0%;
+}
+
+textbox {
+    text-color:                     @yl;
+    background-color:               @dm;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+}
+
+/* vim:ft=css

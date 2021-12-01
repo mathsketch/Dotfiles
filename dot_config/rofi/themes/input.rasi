@@ -1,0 +1,48 @@
+@theme "scheme/gruvbox.rasi"
+
+* {
+    background-color:       @ds;
+    text-color:             @wh;
+    tc:                     @gn;
+}
+
+window {
+    width:      			350;
+    padding:    			15px;
+    border:					0px;
+    border-color:           @ds;
+    location:               center;
+    y-offset:               -40px;
+    children:               [ inputbar ];
+}
+
+inputbar {
+    spacing:    					2px;
+    text-color: 					@fg;
+    background-color:               @tc;
+    border-radius:                  4px;
+    children: 						[ prompt,entry ];
+}
+
+prompt {
+    border: 						4px;
+    border-color:                   @tc;
+    text-color: 					@dh;
+    font:                           "FiraCode Nerd Font 12";
+    background-color:               @tc;
+	padding: 						0.2% 0.65% 0.2% 0.5%;
+}
+
+entry {
+    text-color: 					@lg;
+    background-color:               @do;
+    border:                         4px;
+    border-color:                   @do;
+    horizontal-align:               0;
+    padding:                        0.5% 0% 0% 0.5%;
+    expand:                         true;
+    blink:                          true;
+    cursor:                         text;
+}
+
+/* vim:ft=css

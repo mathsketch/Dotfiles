@@ -1,0 +1,36 @@
+#!/usr/bin/bash
+wid=$1
+class=$2
+instance=$3
+consequences=$4
+
+
+echo "$@" > /tmp/external_rules.log
+#winRole=$(xprop -id $wid | grep -i WM_WINDOW_ROLE | awk -F ' = ' '{print $2}')
+#if [[ "$winRole" = '"pop-up"' ]];then
+#    echo 'state=floating'
+#fi
+
+if [[ "$class" = 'Google-chrome' || "$class" = 'Microsoft-edge' ]];then
+    # [[ $(bspc query -d ^2 --tree | grep '"className":"Google-chrome"') ]] || echo "desktop=^2"
+    [[ "$instance" = 'crx_cdonnmffkdaoajfknoeeecmchibpmkmg' ]] && echo 'split_ratio=0.8'
+    [[ "$instance" = 'crx__cdonnmffkdaoajfknoeeecmchibpmkmg' ]] && echo 'split_ratio=0.8'
+fi
+
+wd=$(echo $2 | awk -F '_' '{print $NF}')
+case $wd in
+    'floating'   ) 
+        echo 'state=floating'
+        [[ $(xdotool getwindowname "$wid") = 'nvim' ]] && echo 'marked=on rectangle=1669x652+129+182'
+    ;;
+    'fullscreen' ) echo 'state=fullscreen';;
+    'sticky'     ) echo 'sticky=on';;
+    'hidden'     ) echo 'hidden=on';;
+    'marked'     ) echo 'marked=on';;
+esac
+
+if [[ $(xdotool get_desktop) -eq 6 ]];then
+    echo 'state=floating'
+fi
+
+# vim:ft=sh

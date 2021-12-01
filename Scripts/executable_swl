@@ -1,0 +1,30 @@
+#!/usr/bin/bash
+quit() {
+    bspc node "$TERWID" --flag hidden=off -f
+    pkill -P $$
+    exit 0
+}
+
+guic=$1;shift
+bspc -v &>/dev/null || { $guic "$@" &>/dev/null & exit; }
+
+trap quit EXIT INT
+
+TERWID=$(bspc query -N -n focused.local.window)
+state=$(bspc query -T -n "$TERWID" | sed -ne 's/.*\"state\":"\([a-z_]*\)",.*/\1/p')
+
+{ $guic "$@";kill -INT $$; } &
+gpid=$!
+
+bspc subscribe node_add | while read -r event
+do
+    wid=$(echo "$event" | awk '{print $5}')
+    npid=$(xdotool getwindowpid "$wid")
+    nppid=$(ps -o ppid= -p "$npid")
+    if [[ $gpid -eq "$nppid" ]];then
+        bspc node "$wid" --state "$state"
+        bspc node "$TERWID" --flag hidden=on
+        break
+    fi
+done &
+wait

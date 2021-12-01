@@ -1,0 +1,6 @@
+{% for tag in workspace.tags %}
+{% if tag.mine %}
+<span size="x-large">{{ tag.name }}</span>
+{% endif %}
+{% endfor %}
+<span size="small" rise="2000" style="italic"> {{ window_title | strip | truncate: 50, '...'}}</span>

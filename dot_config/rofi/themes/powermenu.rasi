@@ -1,0 +1,87 @@
+configuration {
+    show-icons:                     false;
+    font:                           "FiraCode Nerd Font 12";
+}
+
+@theme "scheme/gruvbox.rasi"
+
+window {
+    transparency:                   "real";
+    location:                       center;
+    background-color:               @ds;
+    width:                       	800px;
+    x-offset:                       0px;
+    y-offset:                       0px;
+}
+
+mainbox {
+    background-color:               @tp;
+    children:                       [ inputbar, listview ];
+    spacing:                        20;
+    margin:                         40px;
+}
+
+inputbar {
+	children: 						[ textbox-prompt-colon, prompt ];
+    spacing:                        0px;
+    background-color:               @ds;
+    text-color:                     @wh;
+    expand:                         false;
+}
+
+textbox-prompt-colon {
+	expand: 						false;
+	str: 							" System ";
+	background-color: 				@gn;
+	text-color: 					@dh;
+    padding:                        1% 0% 0% 0%;
+    border:                  		2px 2px 2px 2px;
+    border-radius:                  4px 0px 0px 4px;
+    border-color:                  	@gn;
+}
+
+prompt {
+    enabled: 						true;
+    padding:                        1% 1% 1% 1%;
+	background-color: 				@do;
+	text-color: 					@wh;
+    border:                  		2px 2px 2px 2px;
+    border-radius:                  0px 4px 4px 0px;
+    border-color:                  	@gn;
+}
+
+listview {
+    columns:						5;
+    lines:							1;
+    spacing:                        15px;
+    cycle:                          true;
+    dynamic:                        true;
+    layout:                         vertical;
+    background-color:               @ds;
+}
+
+element {
+    background-color:               @dw;
+    text-color:                     @wh;
+    orientation:                    vertical;
+    border-radius:                  8px;
+    cursor:                         pointer;
+}
+
+element-text {
+	font:							"feather 32";
+    background-color:               @dm;
+    text-color:                     @wh;
+    expand:                         true;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    padding:                        5% 2% 5%;
+    cursor:                         pointer;
+}
+
+element-text selected {
+    background-color:               @gn;
+    text-color:                     @dh;
+}
+
+/* vim:ft=css

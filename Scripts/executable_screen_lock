@@ -1,0 +1,53 @@
+#!/usr/bin/bash
+image='/home/arux/.cache/i3lock/1920x1080/deskshot.png'
+hue=(-level "0%,100%,0.7")
+effect=(-filter Gaussian -resize 20% -define "filter:sigma=1.5" -resize 500.5%)
+insidecolor=00000000
+ringcolor=d4be98ff
+keyhlcolor=3A59C6ff
+bshlcolor=d23c3dff
+separatorcolor=00000000
+insidevercolor=00000000
+insidewrongcolor=d23c3dff
+ringvercolor=89b482ff
+ringwrongcolor=d4be98ff
+verifcolor=d4be98ff
+timecolor=d4be98ff
+datecolor=d4be98ff
+greetercolor=d4be98ff
+loginbox=00000080
+logo="arch_logo.png"
+rectangles="roundRectangle 38,890 480,1042 30,30"
+# insideimage="image SrcOver 860,100 200,200"
+insideimage="image SrcOver 70,650 200,200"
+font="Fira Code"
+size=20
+locktext='Type password to unlock...'
+time_format='%H:%M:%S'
+
+cd /home/arux/file/logo/
+scrot $image -o
+convert "$image" "${hue[@]}" "${effect[@]}" -draw "fill #$loginbox $rectangles $insideimage $logo" "$image"
+
+xset dpms 10 10 10
+trap "xset dpms 1200 1200 1200" EXIT INT TERM
+
+pgrep -x i3lock >/dev/null && xset dpms force off || \
+i3lock \
+    -n -c 00000000 \
+    -t -i "$image" \
+    --time-pos='x+163:h-100' \
+    --date-pos='x+45:h-70' \
+    --greeter-pos='x+45:h-45' --greeter-align 1 --greeter-text "$locktext" \
+    --clock --date-align 1 --time-str "$time_format" \
+    --inside-color=$insidecolor --ring-color=$ringcolor --line-uses-inside \
+    --keyhl-color=$keyhlcolor --bshl-color=$bshlcolor --separator-color=$separatorcolor \
+    --insidever-color=$insidevercolor --insidewrong-color=$insidewrongcolor \
+    --ringver-color=$ringvercolor --ringwrong-color=$ringwrongcolor --ind-pos='x+350:h-90' \
+    --radius=25 --ring-width=5 --verif-text='' --wrong-text='' \
+    --verif-color="$verifcolor" --time-color="$timecolor" --date-color="$datecolor" --greeter-color="$greetercolor" \
+    --time-font="$font" --date-font="" --greeter-font="$font" --layout-font="$font" --verif-font="$font" --wrong-font="$font" \
+    --time-size=50 --greeter-size=16 --date-size=20 \
+    --noinput-text='' --force-clock --pass-media-keys
+
+xset dpms 1200 1200 1200

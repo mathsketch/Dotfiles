@@ -1,0 +1,91 @@
+#!/usr/bin/bash
+cache_dir="$HOME/.cache/eww"
+
+cleanup() {
+    rm -f "$PIDFILE"
+    pkill -P $$
+}
+
+listen_info() {
+    PIDFILE="$HOME/.cache/eww/$(basename $0)_info.pid"
+
+    if [ -f "$PIDFILE" ];then
+        pid=$(cat "$PIDFILE")
+        kill -TERM "$pid";sleep 0.5
+        [ -f "$PIDFILE" ] && exit 1 || echo $$ > "$PIDFILE"
+    else
+        echo $$ > "$PIDFILE"
+    fi
+
+    trap cleanup SIGINT SIGTERM EXIT
+
+    playerctl --follow metadata --format '{{ status }}\n{{ title }}\n{{ playerName }}\n{{ default(artist,"Unknown") }}' | while read -r info;do
+        IFS=$'\n' 
+        info_list=($(echo -e "$info"))
+        [ "${info_list[0]}" == "Playing" ] && icon=" " || icon=" "
+        title_artist="${info_list[1]} - ${info_list[3]}"
+        music_player="${info_list[2]}"
+
+        if [ "$last_player" != "$music_player" ];then
+            last_player="$music_player"
+            eww close music_win 2>/dev/null
+        fi
+        # [ -z "$music_player" ] && eww close music_win 2>/dev/null
+
+        echo "$title_artist"
+        eww update play_icon="$icon"
+        eww update music_title="${info_list[1]}"
+        eww update music_artist="${info_list[3]}"
+        eww update music_player="$music_player"
+    done &
+    wait
+}
+
+listen_position() {
+    PIDFILE="$HOME/.cache/eww/$(basename $0)_position.pid"
+    art_fallback="$HOME/.config/eww/fallback.png"
+    if [ -f "$PIDFILE" ];then
+        pid=$(cat "$PIDFILE")
+        kill -TERM "$pid";sleep 0.5
+        [ -f "$PIDFILE" ] && exit 1 || echo $$ > "$PIDFILE"
+    else
+        echo $$ > "$PIDFILE"
+    fi
+
+    trap cleanup SIGINT SIGTERM EXIT
+    
+    player=$(eww state | grep 'music_player' | sed -re 's/^music_player: (.*)$/\1/g')
+    [ -z "$player" ] && { eww close music_win; exit 1; }
+    playerctl -p "$player" --follow metadata --format '{{position}} {{mpris:length}}\n{{ mpris:artUrl }}' | while read -r info;do
+        IFS=$'\n' 
+        info_list=($(echo -e "$info"))
+        echo "${info_list[0]}" | awk '{printf "%.1f\n",$1/$2*100}' 2>/dev/null || echo 0
+
+        # for art cover image
+        arturl="${info_list[1]}"
+        if [ -n "$(echo "$arturl" | grep -E '^file://')" ];then
+            art_file="${arturl:7}"
+        elif [ -n "$(echo "$arturl" | grep -E '^https?://')" ];then
+            if [ "$last_art" != "$arturl" ];then
+                last_art="$arturl"
+                unset downloaded
+            fi
+            if ! [ -n "$downloaded" ];then
+                wget "$arturl" -O "$cache_dir/art_cache" 2>/dev/null && art_file="$cache_dir/art_cache" || art_file="$art_fallback"
+                downloaded=1
+            else
+                art_file="$cache_dir/art_cache"
+            fi
+        else
+            art_file="$art_fallback"
+        fi
+
+        eww update music_art="${art_file}"
+    done &
+    wait
+}
+
+case "$1" in
+    -p) listen_position;;
+    *) listen_info;;
+esac

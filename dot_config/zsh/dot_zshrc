@@ -1,0 +1,175 @@
+#
+# >>> related dir
+#
+ZSHCACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+ZSHDATA="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
+[ -d "$ZSHCACHE" ] || mkdir -p "$ZSHCACHE"
+[ -d "$ZSHDATA" ] || mkdir -p "$ZSHDATA"
+
+#
+# >>> plugin options
+#
+export FAST_WORK_DIR="${ZDOTDIR}/fsh"
+export FZF_DEFAULT_OPTS='-i --border=rounded --margin=3 --reverse
+--color fg:#ebdbb2,bg:-1,hl:#fabd2f,fg+:#f2e5bc,bg+:#32302f,hl+:#af3a03
+--color border:#504945,info:#83a598,prompt:#8ec07c,spinner:#fabd2f,pointer:#83a598,marker:#fe8019,header:#665c54'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+
+zstyle ':fzf-tab:*' default-color $'\033[39m'
+zstyle ':fzf-tab:complete:(cd|z):*' fzf-preview 'exa -1 --color=always ${word/\\/}'
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+if [ -z "$TMUX" ];then
+    zstyle ':fzf-tab:complete:*' fzf-flags --margin=0,1 --height=70%
+else
+    zstyle ':fzf-tab:complete:*' fzf-flags --margin=0,1 --height=100%
+fi
+
+#
+# >>> zsh plugins 
+#
+declare -A ZINIT
+ZINIT[ZCOMPDUMP_PATH]="${ZSHCACHE}/zcompdump"
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+if [ -f "${ZINIT_HOME}/zinit.zsh" ];then
+    source "${ZINIT_HOME}/zinit.zsh"
+else
+    mkdir -p "$ZINIT_HOME"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME" || { echo "install zinit failed"; exit 0; }
+fi
+
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+zvm_config() {
+    ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_NEX
+    ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
+    ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+    ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+    ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+    ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
+    ZVM_VI_HIGHLIGHT_FOREGROUND="#282828"
+    ZVM_VI_HIGHLIGHT_BACKGROUND="#d8a657"
+    ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold,underline
+    ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+}
+zvm_after_lazy_keybindings() {
+  bindkey -M visual 'y' zvm_vi_yank
+  bindkey -M vicmd 'y' zvm_vi_yank
+  bindkey -M visual 'x' zvm_vi_delete
+}
+zinit proto"git" lucid light-mode for \
+    jeffreytse/zsh-vi-mode
+zvm_vi_yank() {
+	zvm_yank
+	echo "${CUTBUFFER}" | xclip -selection clipboard
+	zvm_exit_visual_mode
+}
+
+zinit proto"git" wait'!0a' lucid light-mode for \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+        zdharma-continuum/fast-syntax-highlighting   \
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50" \
+    atload"_zsh_autosuggest_start"         \
+        zsh-users/zsh-autosuggestions      \
+    atload"zicompinit; zicdreplay" blockf  \
+        zsh-users/zsh-completions          \
+    atload"zicompinit; zicdreplay" blockf  \
+        esc/conda-zsh-completion           \
+
+zinit proto"git" wait'0b' lucid light-mode for \
+    atinit"zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+        zstyle ':fzf-tab:*' popup-pad 30 4
+        zstyle ':fzf-tab:*' fzf-pad 4
+        zstyle ':fzf-tab:*' print-query '\\'
+        zstyle ':fzf-tab:*' fzf-bindings 'alt-enter:accept'
+        zstyle ':fzf-tab:*' accept-line enter
+        zstyle ':fzf-tab:*' continuous-trigger ' '
+        zstyle ':completion:*:descriptions' format '[%d]'" \
+        Aloxaf/fzf-tab  \
+    # kutsan/zsh-system-clipboard \
+
+# local plugins
+zinit ice lucid
+zinit snippet "$ZDOTDIR"/prompt.zsh
+
+zinit wait is-snippet lucid for \
+    atinit"
+        export _ZO_MAXAGE=10000
+        export _ZO_EXCLUDE_DIRS=$HOME:/sys/*:/proc/*:/dev/*
+        export _ZO_FZF_OPTS='--reverse --border=rounded --margin=0,1 --height=70%'"    \
+        "$ZDOTDIR"/zoxide.zsh   \
+    atinit"
+        [ -z \"$TMUX\" ] || FZF_TMUX=1
+        FZF_TMUX_OPTS='-p 70%,60%'
+        FZF_CTRL_T_OPTS='--margin=0,1 --height=70%'
+        FZF_CTRL_R_OPTS='--margin=0,1 --height=70%'" \
+    atload"
+        bindkey -r '\ec'
+        bindkey -M viins '^F' fzf-history-widget
+        bindkey -M vicmd '^F' fzf-history-widget" \
+        "/usr/share/fzf/key-bindings.zsh"\
+    atinit"FZF_COMPLETION_OPTS='--margin=0,1 --height=70%'" \
+        "/usr/share/fzf/completion.zsh"\
+
+# install binary file
+zinit from"gh-r" as"program" mv"direnv* -> direnv" bpick"*linux-amd64*" \
+    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone'             \
+    pick"direnv" src="zhook.zsh" light-mode for                         \
+        direnv/direnv
+
+zinit from"gh-r" as"program" mv"vivid* -> vivid" bpick"*unknown-linux-gnu*" extract='!vivid'  \
+    atload'export LS_COLORS="$(vivid generate $HOME/.config/vivid/theme/gruvbox.yml)"
+        zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}' for                            \
+        @sharkdp/vivid
+
+#
+# >>> others
+#
+source "${ZDOTDIR}/alias.zsh"
+source "${ZDOTDIR}/function.zsh"
+
+# 
+# >>> options
+#
+setopt globdots
+setopt appendhistory
+SAVEHIST=10000
+HISTSIZE=10000
+HISTFILE="${ZSHDATA}/zsh_history"
+#stty stop undef
+stty ixany
+setopt interactivecomments
+setopt autocd
+#zmodload zsh/zprof
+
+# language env load
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# zstyle settings
+zstyle ':completion:*:ssh:*' hosts off
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zle_highlight=( region:bg=#d8a657,fg=#000000 paste:none)
+zle -N down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+autoload -U up-line-or-beginning-search
+
+# auto set window title
+precmd_functions+=(set_win_title)
+function set_win_title(){
+    echo -ne "\033]0; $(basename "$PWD") \007"
+}
+
+#
+# >>> keybinds
+#
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+bindkey -rM viins '^D'
+bindkey -rM vicmd '^D'
+bindkey -M viins '^[d' kill-line

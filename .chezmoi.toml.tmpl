@@ -1,0 +1,12 @@
+{{- $ONLYTERMINAL := promptBool "only terminal" true -}}
+{{- $NAME := promptString "username" -}}
+{{- $EMAIL := promptString "email" -}}
+
+[merge]
+args = ['-d']
+command = 'nvim'
+
+[data]
+onlyterminal = {{ $ONLYTERMINAL }}
+username = "{{ $NAME }}"
+email = "{{ $EMAIL }}"

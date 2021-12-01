@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+wallpaper_dir="$HOME/Pictures/Wallpaper"
+
+select_set() {
+    selected=($(nsxiv -tobr "$wallpaper_dir"))
+    [ -n "$selected" ] && feh --bg-fill "${selected[0]}"
+}
+
+random_set() {
+    feh -r --bg-fill --randomize "$wallpaper_dir"
+}
+
+case "$1" in
+    -r) random_set;;
+    *) select_set;;
+esac

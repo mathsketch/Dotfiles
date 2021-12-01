@@ -1,0 +1,22 @@
+@theme "scheme/gruvbox.rasi"
+
+* {
+    background-color:       @ds;
+    text-color:             @wh;
+}
+
+window {
+    width:      			230;
+    padding:    			25px;
+    border:					0px;
+    border-color:           @ds;
+    location:               center;
+    y-offset:               -40px;
+}
+
+entry {
+    expand: 				true;
+    text-color:				@yl;
+}
+
+/* vim:ft=css

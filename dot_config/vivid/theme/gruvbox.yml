@@ -1,0 +1,155 @@
+# Author: https://github.com/fredericrous
+# Inspired by the Lava theme for Fish-Shell
+colors:
+  base2       : '282828'
+  dark0_soft  : '32302f'
+  dark1       : '3c3836'
+  base1       : '504945'
+  darkgray    : '665c54'
+  gray        : '928374'
+  white       : 'f9f5d7'
+  base02      : 'fbf1c7'
+  light0_soft : 'f2e5bc'
+  light1      : 'ebdbb2'
+  base01      : 'd5c4a1'
+  light3      : 'bdae93'
+  light4      : 'a89984'
+  lightred    : 'fb4934'
+  lightgreen  : 'b8bb26'
+  lightyellow : 'fabd2f'
+  lightblue   : '83a598'
+  lightpurple : 'd3869b'
+  lightaqua   : '8ec07c'
+  lightorange : 'fe8019'
+  red         : 'cc241d'
+  green       : '98971a'
+  yellow      : 'd79921'
+  blue        : '458588'
+  purple      : 'b16286'
+  aqua        : '689d6a'
+  orange      : 'd65d0e'
+  darkred     : '9d0006'
+  darkgreen   : '79740e'
+  darkyellow  : 'b57614'
+  darkblue    : '076678'
+  darkpurple  : '8f3f71'
+  darkaqua    : '427b58'
+  darkorange  : 'af3a03'
+
+core:
+  regular_file:
+    foreground: base01
+
+  directory:
+    foreground: blue
+    font-style: bold
+
+  executable_file:
+    foreground: lightorange
+    font-style: bold
+
+  symlink:
+    foreground: lightaqua
+    font-style: bold
+
+  broken_symlink:
+    foreground: base01
+    background: darkred
+    font-style: bold
+
+  missing_symlink_target:
+    foreground: base01
+    background: darkred
+    font-style: bold
+
+  fifo:
+    foreground: base01
+    background: darkyellow
+    font-style: bold
+
+  socket:
+    foreground: base01
+    background: darkpurple
+    font-style: bold
+
+  character_device:
+    foreground: yellow
+    background: base02
+    font-style: bold
+
+  block_device:
+    foreground: yellow
+    background: base02
+    font-style: bold
+
+  normal_text:
+    foreground: base01
+
+  other_writable:
+    {}
+
+  sticky:
+    {}
+
+  sticky_other_writable:
+    {}
+
+text:
+  special:
+    foreground: lightyellow
+    font-style: underline
+
+  todo:
+    foreground: base02
+    font-style: underline
+
+  licenses:
+    foreground: gray
+
+  configuration:
+    foreground: green
+    font-style: bold
+
+  other:
+    foreground: green
+
+markup:
+  foreground: yellow
+
+programming:
+  source:
+    foreground: lightgreen
+
+  tooling:
+    foreground: aqua
+
+    continuous-integration:
+      foreground: aqua
+
+media:
+  image:
+    foreground: purple
+
+  audio:
+    foreground: purple
+
+  video:
+    foreground: purple
+    font-style: bold
+
+  fonts:
+    foreground: lightpurple
+
+office:
+  foreground: lightred
+  font-style: bold
+
+archives:
+  foreground: lightred
+  font-style: underline
+
+executable:
+  foreground: lightorange
+
+unimportant:
+  foreground: gray

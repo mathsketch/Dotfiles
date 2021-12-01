@@ -1,0 +1,34 @@
+README.md
+
+{{ if .onlyterminal }}
+*
+!.profile
+!.zprofile
+!Scripts
+!.config/zsh/*
+!.config/bottom/*
+!.config/btop/*
+!.config/cava/*
+!.config/cava/*
+!.config/clash/*
+!.config/conda/*
+!.config/direnv/*
+!.config/git/*
+!.config/gitui/*
+!.config/htop/*
+!.config/lf/*
+!.config/macchina/*
+
+!.config/mpd/*
+!.config/ncmpcpp/*
+
+!.config/neofetch/*
+!.config/npm/*
+!.config/pip/*
+!.config/tmux/*
+!.config/vivid/*
+!.config/wget/*
+!.config/yarn/*
+!.config/pythonstartup.py
+!.config/starship.toml
+{{ end }}

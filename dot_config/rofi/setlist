@@ -1,0 +1,7 @@
+Proxy service toggle;clash_toggle.sh
+Proxy dashboard;clash_dashboard.sh
+SSH service toggle;sshd_toggle.sh
+Screenkey toggle;screenkey_toggle.sh
+Bluetooth toggle;bluetooth_toggle.sh
+Touchpad toggle;/home/arux/Scripts/touchpad_toggle
+NetworkManager;/home/arux/.config/rofi/script/networkmanager.sh

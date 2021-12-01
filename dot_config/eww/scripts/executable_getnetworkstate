@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+connect_info=$(nmcli -t device status | grep -E ':connected:')
+if [ -n "$connect_info" ];then
+    device=$(echo "$connect_info" | cut -d':' -f1)
+    device_type=$(echo "$connect_info" | cut -d':' -f2)
+    state=$(echo "$connect_info" | cut -d':' -f3)
+    connection=$(echo "$connect_info" | cut -d':' -f4)
+else
+    state="disconnected"
+fi
+
+if [ "$state" == "connected" ];then
+    if [ "$device_type" == "ethernet" ];then
+        network_icon=' '
+    elif [ "$device_type" == "wifi" ];then
+        network_icon=' '
+        signal=$(awk 'NR==3 {printf "%.f%%", $3/70*100}' /proc/net/wireless)
+    else
+        network_icon=' '
+    fi
+    network_info="$device: connected to $connection"
+    [ -n "$signal" ] && network_info+=" ( $signal )"
+else
+    network_icon=' '
+    network_info="No network!"
+fi
+
+echo -e "$network_info"
+eww update network_icon="$network_icon"

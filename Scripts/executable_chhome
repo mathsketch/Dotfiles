@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+newHome="${XDG_DATA_HOME:-$HOME/.local/share}/wildhome"
+related_dir=(
+    ".config"
+    ".local"
+    ".cache"
+)
+
+[ -d "$newHome" ] || mkdir -p "$newHome"
+
+for dir in "${related_dir[@]}";do
+    [ -L "${newHome}/${dir}" ] || ln -s "${HOME}/${dir}" "${newHome}/${dir}"
+done
+
+export HOME="$newHome"
+
+exec "$@"

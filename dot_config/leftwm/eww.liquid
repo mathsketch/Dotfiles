@@ -1,0 +1,13 @@
+(box :orientation "h" :class "workspaces" :space-evenly true :halign "fill"
+{% for tag in workspace.tags %}
+{% if tag.mine %}
+(button :class "ws-button-mine" " ")
+{% elsif tag.visible  %}
+(button :class "ws-button-visible" " ")
+{% elsif tag.busy  %}
+(button :class "ws-button-busy" :onclick 'leftwm command "SendWorkspaceToTag {{workspace.index}} {{tag.index}}"' " ")
+{% else tag.visible  %}
+(button :class "ws-button" :onclick 'leftwm command "SendWorkspaceToTag {{workspace.index}} {{tag.index}}"' " ")
+{% endif %}
+{% endfor %}
+)

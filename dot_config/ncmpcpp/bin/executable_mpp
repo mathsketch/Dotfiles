@@ -1,0 +1,97 @@
+#!/usr/bin/bash
+# 
+# mpd and ncmpcpp lancher 
+#
+mpd_pid_file="$HOME/.local/share/mpd/pid"
+mpris_pid_file="/tmp/mpd_mpris.pid"
+
+get_pid() {
+    if [ -f "$1" ];then
+        cat "$1"
+    fi
+}
+
+kill_mpd() {
+    mpd_pid=$(get_pid "$mpd_pid_file")
+    if [ -n "$mpd_pid" ];then
+        kill -9 "$mpd_pid"
+    fi
+}
+
+start_mpd() {
+    mpd_pid=$(get_pid "$mpd_pid_file")
+    if [ -z "$mpd_pid" ] || [ "$(ps -p "$mpd_pid" -o command=)" != "mpd" ];then
+        mpd
+    else
+        return 1
+    fi
+}
+
+start_mpd_mpris() {
+    [ -z "$(command -v mpd-mpris)" ] && return 1
+    mpris_pid=$(get_pid "$mpris_pid_file")
+    if [ -z "$mpris_pid" ];then
+        setsid mpd-mpris -no-instance 2>/dev/null &
+        echo $! > "$mpris_pid_file"
+    else
+        return 1
+    fi
+}
+
+stop_mpd_mpris() {
+    mpris_pid=$(get_pid "$mpris_pid_file")
+    if [ -n "$mpris_pid" ];then
+        kill "$mpris_pid"
+        rm -f "$mpris_pid_file"
+        [ -d "/tmp/mpd_mpris/" ] && rm /tmp/mpd_mpris/*
+    fi
+}
+
+cleanup() {
+    rm -f "$FIFO_UEBERZUG"
+    rm /tmp/mpd_cover.jpg 2>/dev/null
+    pkill ncmpcpp_cover_a
+    echo 0 2 > "$HOME/.config/ncmpcpp/ncmpcpp-ueberzug/arg"
+    exec 3>&-
+}
+
+ueberzug_ncmpcpp() {
+    export FIFO_UEBERZUG="/tmp/mpd-ueberzug-${PPID}"
+    rm "$FIFO_UEBERZUG" 2>/dev/null
+    mkfifo "$FIFO_UEBERZUG" || exit 1
+    trap cleanup EXIT
+    ueberzug layer --loader synchronous --parser simple < "$FIFO_UEBERZUG" 2>/dev/null &
+    exec 3>"$FIFO_UEBERZUG"
+    ncmpcpp -c "$HOME/.config/ncmpcpp/coverart_config" -b "$HOME/.config/ncmpcpp/coverart_bindings" 3>&- 2>/dev/null
+    cleanup
+}
+
+case "$1" in
+    -e|exit)
+        stop_mpd_mpris
+        [ -f "$mpd_pid_file" ] && mpd --kill || echo "mpd is not running"
+        ;;
+    -k|kill) 
+        stop_mpd_mpris
+        kill_mpd
+        ;;
+    -d|daemon) 
+        start_mpd && start_mpd_mpris || echo "mpd is already started"
+        ;;
+    -r|restart) 
+        stop_mpd_mpris
+        mpd --kill; sleep 0.5
+        [ -f "$mpd_pid_file" ] && kill_mpd
+        start_mpd && start_mpd_mpris
+        ;;
+    -m|mpris)
+        start_mpd_mpris || stop_mpd_mpris
+        ;;
+    -n|nocover)
+        start_mpd && start_mpd_mpris
+        ncmpcpp
+        ;;
+    *)  start_mpd && start_mpd_mpris
+        [ -n "$DISPLAY" ] && ueberzug_ncmpcpp || ncmpcpp
+        ;;
+esac

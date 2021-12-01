@@ -1,0 +1,89 @@
+; old 
+(defwindow music_bar
+  :monitor 0
+  :geometry (geometry :x 0 :y 0 :width "450" :height "34" :anchor "center bottom")
+  :reserve (struts :distance "3%" :side "bottom")
+  :windowtype "dock"
+  :wm-ignore false
+  (musicbar))
+
+(defwindow calendar
+  :geometry (geometry :x 1550 :y 66 :width "350" :height "250" :anchor "left top")
+  :windowtype "normal"
+  :wm-ignore true
+  (cal))
+
+(defwindow title_bar
+  :monitor 0
+  :geometry (geometry :x 0 :y 0 :width "700" :height "34" :anchor "left top")
+  :reserve (struts :distance "3%" :side "top")
+  :windowtype "dock"
+  :wm-ignore false
+  (titlebar))
+
+(defwindow side_bar
+  :monitor 0
+  :geometry (geometry :x 0 :y 0 :width "250" :height "34" :anchor "right top")
+  :reserve (struts :distance "3%" :side "top")
+  :windowtype "dock"
+  :wm-ignore false
+  (rightside))
+
+(defwindow info_bar
+  :monitor 0
+  :geometry (geometry :x 0 :y 0 :width "320" :height "34" :anchor "right bottom")
+  :reserve (struts :distance "3%" :side "bottom")
+  :windowtype "dock"
+  :wm-ignore false
+  (infobar))
+
+(defwindow wm_bar
+  :monitor 0
+  :geometry (geometry :x 0 :y 0 :width "320" :height "34" :anchor "left bottom")
+  :reserve (struts :distance "3%" :side "bottom")
+  :windowtype "dock"
+  :wm-ignore false
+  (wmbar))
+
+
+; new and now used
+
+(defwindow topbar
+  :monitor 0
+  :geometry (geometry :x 0 :y 15 :width "98%" :height "40" :anchor "center top")
+  :reserve (struts :distance "60" :side "top")
+  :windowtype "dock"
+  :wm-ignore false
+  (topbar))
+
+(defwindow subbar
+  :monitor 0
+  :geometry (geometry :x 80 :y 66 :width "750" :height "34" :anchor "left top")
+  :reserve (struts :distance "100" :side "top")
+  :windowtype "dock"
+  :wm-ignore false
+  (subbar))
+
+(defwindow battery_win
+  :geometry (geometry :x -20 :y 65 :width "380" :height "130" :anchor "right top")
+  :windowtype "normal"
+  :wm-ignore true
+  (battery_pop))
+
+(defwindow system_win
+  :geometry (geometry :x -20 :y 65 :width "380" :height "130" :anchor "right top")
+  :windowtype "normal"
+  :wm-ignore true
+  (system_pop))
+
+(defwindow music_win
+  :geometry (geometry :x 0 :y 65 :width "510" :height "190" :anchor "center top")
+  :windowtype "normal"
+  :wm-ignore true
+  (music_pop))
+
+; (defwindow network_win
+;   :geometry (geometry :x 1520 :y 65 :width "380" :height "130" :anchor "left top")
+;   :windowtype "normal"
+;   :wm-ignore true
+;   (network_pop))

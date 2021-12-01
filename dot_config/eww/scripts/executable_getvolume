@@ -1,0 +1,56 @@
+#!/usr/bin/bash
+PIDFILE="$HOME/.cache/eww/$(basename $0).pid"
+export LC_ALL=C
+
+cleanup() {
+    rm -f "$PIDFILE"
+    pkill -P $$
+}
+
+volume_print() {
+    sink=$(pacmd list-sinks | sed -n '/\* index:/ s/.*: //p')
+    active_port=$(pacmd list-sinks | sed -n "/index: $sink/,/index:/p" | grep active)
+    muted=$(pamixer --get-mute)
+    volume=$(pamixer --get-volume)
+
+    if [ "$volume" -ge 66 ];then
+        level_icon="墳"
+    elif [ "$volume" -le 33 ];then
+        level_icon="奄"
+    else
+        level_icon="奔"
+    fi
+
+    if echo "$active_port" | grep -q headphones; then
+        [ "$muted" == true ] && icon="" || icon=""
+    else
+        [ "$muted" == true ] && icon="婢" || icon="$level_icon"
+    fi
+    eww update volume_icon="$icon "
+    echo "$volume"
+}
+
+listen() {
+    trap cleanup SIGINT SIGTERM EXIT
+
+    if [ -f "$PIDFILE" ];then
+        pid=$(cat "$PIDFILE")
+        kill -TERM "$pid";sleep 0.5
+        [ -f "$PIDFILE" ] && exit 1 || echo $$ > "$PIDFILE"
+    else
+        echo $$ > "$PIDFILE"
+    fi
+
+    volume_print
+    pactl subscribe | while read -r event; do
+    if echo "$event" | grep -q "Event 'change' on sink"; then
+        volume_print
+    fi
+    done &
+    wait
+}
+
+case "$1" in
+    update) volume_print;;
+    *) listen;;
+esac

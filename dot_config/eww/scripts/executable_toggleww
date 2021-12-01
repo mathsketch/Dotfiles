@@ -1,0 +1,35 @@
+#!/usr/bin/bash
+
+toggle_sub() {
+    # toggle eww subbar
+    toggle_eww "subbar" || exit 1
+
+    # toggle tray ( stalonetray )
+    tray_pid=$(pgrep -x stalonetray)
+    if [ -n "$tray_pid" ];then
+        kill "$tray_pid" 2>/dev/null
+    else
+        stalonetray --scrollbars-highlight "#928374" &>/dev/null &
+    fi
+}
+
+toggle_eww() {
+    eww ping &>/dev/null || exit 1
+    bar=$(eww windows | grep "$1")
+    if [ "${bar:0:1}" != '*' ];then 
+        eww open "$1" &>/dev/null
+    else
+        eww close "$1" &>/dev/null
+    fi
+}
+
+close() {
+    pkill stalonetray 2>/dev/null
+    eww close "subbar" 2>/dev/null
+}
+
+case "$1" in
+    -c|close) close;;
+    -t) toggle_eww "$2";;
+    *) toggle_sub;;
+esac

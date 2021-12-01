@@ -1,0 +1,96 @@
+; hover animation
+(defwidget hover_revealer_left [var name ?time ?transition ?spacing]
+  (eventbox
+    :onhover "eww update reveal_${name}=true"
+    :onhoverlost "eww update reveal_${name}=false"
+    (box :class "hover-revealer ${name}-hr" :space-evenly false :spacing {spacing ?: 0}
+      (revealer
+        :transition {transition ?: "slideleft"}
+        :duration {time ?: "500ms"}
+        :reveal var
+        (children :nth 0))
+      (children :nth 1))))
+
+(defwidget hover_revealer_right [var name ?time ?transition ?spacing]
+  (eventbox
+    :onhover "eww update reveal_${name}=true"
+    :onhoverlost "eww update reveal_${name}=false"
+    (box :class "hover-revealer ${name}-hr" :space-evenly false :spacing {spacing ?: 0}
+      (children :nth 0)
+      (revealer
+        :transition {transition ?: "slideright"}
+        :duration {time ?: "500ms"}
+        :reveal var
+        (children :nth 1)))))
+
+(defwidget hover_switch_revealer [var name ?time ?reveal ?orientation]
+  (eventbox
+    :onhover "eww update reveal_${name}=true"
+    :onhoverlost "eww update reveal_${name}=false"
+    (box :class "hover-switch-revealer ${name}-hsr" :space-evenly false :orientation orientation
+      (revealer
+        :transition {orientation == "v" ? "slideup" : "slideleft"}
+        :duration {time ?: "500ms"}
+        :reveal {"${reveal ?: true}" ? ! var : true}
+        :halign "center" :valign "center"
+        (children :nth 0))
+      (revealer
+        :transition {orientation == "v" ? "slidedown" : "slideright"}
+        :duration {time ?: "500ms"}
+        :reveal {"${reveal ?: true}" ? var : false}
+        :halign "center" :valign "center"
+        (children :nth 1)))))
+
+
+(defwidget metric [name value ?level ?onchange ?orientation ?flipped]
+  (box :class "metric " :space-evenly false :halign "center"
+    (eventbox :cursor {onchange != "" ? "pointer" : ""}
+      (scale :class "${name}-scale ${level}" :min 0 :max 101 
+             :orientation {orientation ?: "h"}
+             :flipped {flipped ?: false}
+             :value {value ?: 0}
+             :active {onchange != ""}
+             :onchange onchange))))
+
+(defwidget info [name icon value ?high ?low ?label]
+  (box :class "info-metric ${name}-info" :space-evenly false :halign "center" :orientation "v" 
+    (label :class "${name}-label" :text "${icon}${label ?: '${value}%'}")
+    (metric :name name :value value
+            :level {value > "${high ?: 66}" ? "high" : "${value < "${low ?: 33}" ? "low" : "normal"}"})))
+
+(defwidget binfo [name icon value ?state ?high ?low]
+  (box :class "binfo-metric ${name}-binfo" :space-evenly false :halign "center" :orientation "v" 
+       :visible {state != ' '} :tooltip getBatteryInfo
+    (label :class "${name}-label" :text "${icon}${value}%")
+    (metric :name name :value value
+            :level "${value > "${high ?: 66}" ? "low" : "${value < "${low ?: 33}" ? "high" : "normal"}"} ${state}")))
+
+(defwidget vinfo [name icon value ?label]
+  (box :class "vinfo-metric ${name}-vinfo" :space-evenly false :halign "center" :orientation "h" 
+    (label :class "${name}-label" :text "${icon}${label ?: '${value}%'}")
+    (metric :name name :value value :orientation "v" :flipped true)))
+
+(defwidget circle_info [name icon value ?thickness ?width ?high ?low ?active ?onclick ?onrightclick]
+  (box :class "circle-info ${name}-cinfo" :width {width ?: 10} 
+    (circular-progress
+      :class "circle ${value > "${high ?: 70}" ? "high" : "${value < "${low ?: 30}" ? "low" : "normal"}"}"
+      :thickness {thickness ?: 3} :value value
+      (ebtn :onclick onclick :onrightclick onrightclick :active active
+        (label :class "${name}-label" :text icon)))))
+
+(defwidget circle_pop [name icon value ?t1 ?t2 ?t3 ?thickness ?size ?high ?low]
+  (box :class "circle_pop ${name}-cpop" :orientation "h" :height "${size ?: 130}" :space-evenly false
+    (circular-progress 
+      :class "progress ${name}-progress ${value > "${high ?: 80}" ? "high" : "${value < "${low ?: 20}" ? "low" : "normal"}"}" 
+      :width "${size ?: 130}" :thickness {thickness ?: 6} :value value
+      icon)
+    (box :class "info_group" :orientation "v" :valign "center" :halign "start" :space-evenly false
+      (label :class "first" :halign "start" :visible {t1 != ""} :limit-width 15 :text t1)
+      (label :class "second" :halign "start" :visible {t2 != ""} :text t2)
+      (label :class "third" :halign "start" :visible {t3 != ""} :text t3))))
+
+(defwidget ebtn [?class ?onclick ?onrightclick ?active ?tooltip]
+  (box :class "ebtn" :tooltip tooltip
+    (eventbox :cursor {active == false ? "default" : "pointer"}
+      (button :class class :onclick onclick :onrightclick onrightclick :active {active ?: true}
+        (children :nth 0)))))

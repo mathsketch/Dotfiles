@@ -1,0 +1,23 @@
+@theme "scheme/gruvbox.rasi"
+
+* {
+    background-color:       @ds;
+}
+
+window {
+    width:      			500px;
+    padding:    			25px;
+    location:               center;
+    y-offset:               -40px;
+    children:               [ message ];
+    padding:                1% 0.5% 1%;
+}
+
+textbox {
+    expand: 				true;
+    text-color:				@yl;
+    horizontal-align:       0.5;
+    vertical-align:         0.5;
+}
+
+/* vim:ft=css
