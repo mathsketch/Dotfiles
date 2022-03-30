@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 {{ if eq .chezmoi.osRelease.id "arch" -}}
-sudo pacman -Sy vivid zoxide direnv starship
-{{ else if eq .chezmoi.osRelease.id "raspbian" -}}
-sudo apt update
-sudo apt install direnv zoxide exa fd-find fzf
+sudo pacman -Sy vivid zoxide direnv starship fzf fd bat
 {{ end -}}
+
+[ -f "$HOME/.local/bin/lf" ] || ln -rs "$HOME/.config/lf/bin/lf-ueberzug.sh" "$HOME/.local/bin/lf"
+[ -f "$HOME/.local/bin/Scripts" ] || ln -rs "$HOME/Scripts" "$HOME/.local/bin/Scripts"

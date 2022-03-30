@@ -36,6 +36,7 @@
 #### only terminal
 + git
 + fzf
++ bat
 + [fd](https://github.com/ogham/exa/releases)
 + [exa](https://github.com/sharkdp/vivid/releases)
 + starship (curl -sS https://starship.rs/install.sh | sh)
