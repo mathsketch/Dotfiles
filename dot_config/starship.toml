@@ -186,6 +186,7 @@ case ${system,,} in
     ubuntu) echo '';;
     linux) echo '';;
     darwin) echo '';;
+    raspbian) echo '';;
     *) echo '';;
 esac
 """

@@ -3,5 +3,5 @@
 sudo pacman -Sy vivid zoxide direnv starship fzf fd bat
 {{ end -}}
 
-[ -f "$HOME/.local/bin/lf" ] || ln -rs "$HOME/.config/lf/bin/lf-ueberzug.sh" "$HOME/.local/bin/lf"
-[ -f "$HOME/.local/bin/Scripts" ] || ln -rs "$HOME/Scripts" "$HOME/.local/bin/Scripts"
+[ -L "$HOME/.local/bin/lf" ] || ln -rs "$HOME/.config/lf/bin/lf-ueberzug.sh" "$HOME/.local/bin/lf"
+[ -L "$HOME/.local/bin/Scripts" ] || ln -rs "$HOME/Scripts" "$HOME/.local/bin/Scripts"
