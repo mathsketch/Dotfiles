@@ -3,10 +3,8 @@ Screenshots
 other
 
 {{ if .onlyterminal }}
-*
-!.profile
-!.zprofile
-!Scripts
+.xprofile
+.config/*
 !.config/zsh
 !.config/bottom
 !.config/direnv
