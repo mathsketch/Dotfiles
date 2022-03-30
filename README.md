@@ -36,10 +36,10 @@
 #### only terminal
 + git
 + fzf
-+ fd
-+ exa
-+ starship
-+ zoxide
++ [fd](https://github.com/ogham/exa/releases)
++ [exa](https://github.com/sharkdp/vivid/releases)
++ starship (curl -sS https://starship.rs/install.sh | sh)
++ zoxide (curl -sS https://webinstall.dev/zoxide | bash)
 + direnv
 + wget or curl
 #### full
