@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+{{- if eq .chezmoi.id "arch" -}}
+sudo pacman -Syy vivid zoxide direnv starship
+{{- if eq .chezmoi.id "raspbian" -}}
+sudo apt update
+sudo apt install direnv zoxide exa
+{{- end -}}

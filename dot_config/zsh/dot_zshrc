@@ -111,20 +111,12 @@ zinit wait is-snippet lucid for \
         bindkey -r '\ec'
         bindkey -M viins '^F' fzf-history-widget
         bindkey -M vicmd '^F' fzf-history-widget" \
-        "/usr/share/fzf/key-bindings.zsh"\
+        "/usr/share/fzf/key-bindings.zsh" \
     atinit"FZF_COMPLETION_OPTS='--margin=0,1 --height=70%'" \
-        "/usr/share/fzf/completion.zsh"\
-
-# install binary file
-zinit from"gh-r" as"program" mv"direnv* -> direnv" bpick"*linux-amd64*" \
-    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone'             \
-    pick"direnv" src="zhook.zsh" light-mode for                         \
-        direnv/direnv
-
-zinit from"gh-r" as"program" mv"vivid* -> vivid" bpick"*unknown-linux-gnu*" extract='!vivid'  \
-    atload'export LS_COLORS="$(vivid generate $HOME/.config/vivid/theme/gruvbox.yml)"
-        zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}' for                            \
-        @sharkdp/vivid
+        "/usr/share/fzf/completion.zsh" \
+    atload'zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}'                        \
+        "$ZDOTDIR"/vivid.zsh   \
+    "$ZDOTDIR"/direnv.zsh   \
 
 #
 # >>> others

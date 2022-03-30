@@ -1,46 +1,82 @@
-#### For terminal
+## My dotfiles
+### For terminal
 + zsh (shell)
-  + zsh plugin for local
-  + codna, cargo
-  + zoxide
-  + vivid (ls_color theme tool)
-+ lf (file manager)
-+ neovim (editor)
-+ tmux (terminal multiplexer)
 + starship (shell prompt)
++ zoxide (smarter cd)
++ vivid (ls_color theme tool)
++ lf (file manager)
++ tmux (terminal multiplexer)
 + emacs (editor)
++ neovim (editor)
+##### Utilities
++ exa
++ ripgrep
++ fzf
++ skim
 
-#### For desktop application
-+ polybar (status bar)
-+ rofi (application lancher)
-+ bspwm (window manager)
+### For desktop application
+##### widgets and launcher
++ eww
++ polybar
++ rofi
++ dunst
+##### window manager
++ leftwm
++ bspwm
 + sxhkd (X hotkey daemon)
-+ alacritty (terminal emulator)
-+ kitty (terminal emulator)
 + picom (window compton at xorg)
+##### terminal emulator
++ alacritty
++ kitty
++ st
+##### others desktop application
 + qutebrowser (browser, vim like)
-+ others desktop application
 
+### Install requirements
+#### only terminal
++ git
++ fzf
++ exa
++ starship
++ zoxide
++ direnv
++ wget or curl
+#### full
++ mimeo
++ handlr
++ nsxiv
++ scrot
++ maim
++ ueberzug (lf image preview)
++ imagemagick
++ i3lock-color
++ greenclip
++ eww req
++ firacode nerd font and custom icon font
+#### command
+``` bash
+sh -c "$(curl -fsLS git.io/chezmoi)" -- init --apply mathsketch
+```
 #### home structure
-HOME  
-├── .config  
-├── .cache  
-├── .local  
-│   ├── bin  
-│   └── share  
-├── Books  
-├── Desktop  
-├── Documents  
-├── Downloads  
-├── Misc  
-├── Music  
-├── Pictures  
-├── Repository  
-├── Scripts  
-├── Source  
-├── test  
-├── Videos  
-└── VirtualMachine  
-
-#### TODO
-for desktop , for terminal auto install config file
+    HOME  
+    ├── .config  
+    ├── .cache  
+    ├── .local  
+    │   ├── bin  
+    │   └── share  
+    ├── Books  
+    ├── Desktop  
+    ├── Documents  
+    ├── Downloads  
+    ├── Misc  
+    ├── Music  
+    ├── Pictures  
+    ├── Repository  
+    ├── Scripts  
+    ├── Source  
+    ├── test  
+    ├── Videos  
+    └── VM  
+## Screenshots
+![desktop_capture](Screenshots/desktop_capture_new_2.png)
+![desktop_capture](Screenshots/desktop_capture_new_3.png)
