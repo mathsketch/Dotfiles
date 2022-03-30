@@ -38,7 +38,7 @@ if [ -f "${ZINIT_HOME}/zinit.zsh" ];then
     source "${ZINIT_HOME}/zinit.zsh"
 else
     mkdir -p "$ZINIT_HOME"
-    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME" || { echo "install zinit failed"; exit 0; }
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME" || echo "install zinit failed"
 fi
 
 autoload -Uz _zinit
@@ -111,9 +111,9 @@ zinit wait is-snippet lucid for \
         bindkey -r '\ec'
         bindkey -M viins '^F' fzf-history-widget
         bindkey -M vicmd '^F' fzf-history-widget" \
-        "/usr/share/fzf/key-bindings.zsh" \
+        https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh \
     atinit"FZF_COMPLETION_OPTS='--margin=0,1 --height=70%'" \
-        "/usr/share/fzf/completion.zsh" \
+        https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh \
     atload'zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}'                        \
         "$ZDOTDIR"/vivid.zsh   \
     "$ZDOTDIR"/direnv.zsh   \

@@ -1,7 +1,7 @@
 #!/usr/bin/bash
-{{- if eq .chezmoi.id "arch" -}}
-sudo pacman -Syy vivid zoxide direnv starship
-{{- if eq .chezmoi.id "raspbian" -}}
+{{ if eq .chezmoi.osRelease.id "arch" -}}
+sudo pacman -Sy vivid zoxide direnv starship
+{{ else if eq .chezmoi.osRelease.id "raspbian" -}}
 sudo apt update
-sudo apt install direnv zoxide exa
-{{- end -}}
+sudo apt install direnv zoxide exa fd-find fzf
+{{ end -}}

@@ -36,6 +36,7 @@
 #### only terminal
 + git
 + fzf
++ fd
 + exa
 + starship
 + zoxide
