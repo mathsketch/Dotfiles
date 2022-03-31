@@ -24,25 +24,30 @@ case "$(basename "$file" | tr '[:upper:]' '[:lower:]')" in
     *.rar) unrar l "$file" ;;
     *.7z) 7z l "$file" ;;
     *.avi|*.mp4|*.mkv|*.flv)
+        [ -n "$ONTTY" ] && exit 0
         ffmpeg -y -i "$file" -ss '00:00:05' -vframes 1 "$thumbnail"
         preview "$thumbnail" "$@"
         ;;
     *.pdf)
+        [ -n "$ONTTY" ] && exit 0
         gs -o "$thumbnail" -sDEVICE=pngalpha -dLastPage=1 "$file" >/dev/null
         preview "$thumbnail" "$@"
         ;;
     *.jpg|*.jpeg|*.png|*.bmp|*.tga)
+        [ -n "$ONTTY" ] && exit 0
         preview "$file" "$@" ;;
     *.svg)
+        [ -n "$ONTTY" ] && exit 0
         gm convert "$file" "$thumbnail"
         preview "$thumbnail" "$@"
         ;;
     *.gif)
+        [ -n "$ONTTY" ] && exit 0
         gm convert "${file[0]}" "$thumbnail"
         preview "$thumbnail" "$@"
         ;;
-    *.md|*.markdown) glow "$file";;
+    *.md|*.markdown) command -v glow &>/dev/null && glow "$file" || cat "$file";;
     *.iso|*.img) ;;
-    *) bat "$file" -p -n --color=always;;
+    *) command -v bat && bat "$file" -p -n --color=always || cat "$file";;
 esac
 exit 1

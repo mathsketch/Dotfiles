@@ -12,7 +12,11 @@ cleanup() {
 }
 
 . "$CONFIG_BIN"/iconset.sh
-[[ -n "$DISPLAY" ]] || { /usr/bin/lf "$@";exit 0; }
+[ -n "$DISPLAY" ] || { 
+    export ONTTY="true"
+    /usr/bin/lf "$@"
+    exit 0
+}
 
 if ! [[ -d "$LF_CACHE" ]];then
     mkdir -p "$LF_CACHE"
