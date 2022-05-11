@@ -78,7 +78,16 @@ cmd open ${{
 }}
 
 cmd jump %{{
-    res=$(zoxide query "$@")
+    res=$(zoxide query --exclude "$PWD" "${1:-}")
+    if [[ -d "$res" ]];then
+        lf --remote "send $id cd '$res'"
+    else
+        lf --remote "echoerr 'Not found!'"
+    fi
+}}
+
+cmd jumpall ${{
+    res=$(zoxide query -ls "${1:-}" | fzf)
     if [[ -d "$res" ]];then
         lf --remote "send $id cd '$res'"
     else
@@ -90,17 +99,22 @@ cmd on-cd &{{
     zoxide add -- "$PWD"
 }}
 
-# cmd paste &{{
-#     set -- $(cat ~/.local/share/lf/files)
-#     mode="$1"
-#     shift
-#     case "$mode" in
-#         copy) cp -rn -- "$@" .;;
-#         move) mv -n -- "$@" .;;
-#     esac
-#     rm ~/.local/share/lf/files
-#     lf -remote "send clear"
-# }}
+cmd paste &{{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    name=$(basename "$@")
+    while [ -f "$name" ] || [ -d "$name" ];do
+        name="${name}_"
+    done
+    case "$mode" in
+        copy) cp -rn -- "$@" "$name";;
+        move) mv -n -- "$@" "$name";;
+    esac
+    rm ~/.local/share/lf/files
+    lf -remote "send clear"
+    lf -remote "send $id reload"
+}}
 
 cmd bulk_rename ${{
     old="$(mktemp)"
@@ -235,6 +249,7 @@ map X !$f
 
 map sp :set_wallpaper
 map sx $chmod +x $f
+map t
 map te extract
 map ta push :tar<space>
 map tz push :zip<space>
@@ -264,6 +279,7 @@ map pp paste
 map b mark-load
 map M mark-remove
 map ga push :jump<space>
+map gA push :jumpall<space>
 map gD cd ~/Documents
 map gd cd ~/Downloads
 map gm cd ~/Music

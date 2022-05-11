@@ -41,7 +41,8 @@
 
 (defwidget network []
   (box :class "network" :tooltip network_info :visible {network_icon != "" ? true : false}
-    (label :text network_icon)))
+    (ebtn :class "network-button" :onclick "~/.config/rofi/script/networkmanager.sh &"
+      (label :text network_icon))))
 
 (defwidget cpu_circle []
   (box :class "cpucircle scircle"
@@ -247,4 +248,3 @@
     (keyboardstate)
     (mousestate)
     (batterystate)))
-

@@ -31,6 +31,10 @@ bars = 30
 # only check for input once per second. Cava will wake up once input is detected. 0 = disable.
 sleep_timer = 30
 
+# [input]
+# method = pulse
+# source = auto
+
 [output]
 method = raw
 

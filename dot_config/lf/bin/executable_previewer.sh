@@ -48,6 +48,6 @@ case "$(basename "$file" | tr '[:upper:]' '[:lower:]')" in
         ;;
     *.md|*.markdown) command -v glow &>/dev/null && glow "$file" || cat "$file";;
     *.iso|*.img) ;;
-    *) command -v bat && bat "$file" -p -n --color=always || cat "$file";;
+    *) command -v bat &>/dev/null && bat "$file" -p -n --color=always || cat "$file";;
 esac
 exit 1

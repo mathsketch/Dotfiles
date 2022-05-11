@@ -12,6 +12,7 @@ layouts = ["MainAndVertStack", "MainAndDeck", "GridHorizontal", "Monocle"]
 scratchpad = [
     { name = "terminal", value = "st", x = 300, y = 300, height = 600, width = 1320 },
     { name = "ncmpcpp", value = "st -A 100 -e mpp", x = 45, y = 652, height = 388, width = 1105 },
+    { name = "emacs", value = "emacs", x = 250, y = 175, height = 750, width = 1469 },
 ]
 disable_current_tag_swap = false
 focus_behaviour = "Sloppy"
@@ -57,6 +58,7 @@ keybind = [
     { command = "ToggleFullScreen", modifier = ["modkey"], key = "f" },
     { command = "ToggleScratchPad", value = "terminal", modifier = ["modkey", "Shift"], key = "Return" },
     { command = "ToggleScratchPad", value = "ncmpcpp", modifier = ["modkey"], key = "u" },
+    { command = "ToggleScratchPad", value = "emacs", modifier = ["modkey"], key = "n" },
     # move focus
     { command = "MoveWindowUp", modifier = ["modkey", "Shift"], key = "k" },
     { command = "MoveWindowDown", modifier = ["modkey", "Shift"], key = "j" },
@@ -105,7 +107,7 @@ keybind = [
     { command = "Execute", value = """ [ "$(leftwm-state -w 0 -q -s "{{ workspace.layout }}")" == "Monocle" ] && 
             leftwm command "SetLayout MainAndVertStack" || leftwm command "SetLayout Monocle" """, modifier = ["modkey", "Shift"], key = "f" },
     { command = "Execute", value = "rofi -show drun -theme-str '*{tc:@yl;}' -show-icons -selected-row 0", modifier = ["Mod1"], key = "space" },
-    { command = "Execute", value = "$HOME/.config/rofi/bin/cliprint.sh", modifier = ["Mod1"], key = "p" },
+    { command = "Execute", value = "$HOME/.config/rofi/bin/cliprint.sh", modifier = ["modkey"], key = "v" },
     { command = "Execute", value = "LC_ALL=en_US.UTF-8 $HOME/.config/rofi/bin/setting.sh", modifier = ["Control", "Mod1"], key = "space" },
     { command = "Execute", value = "$HOME/.config/rofi/bin/menu_powermenu.sh", modifier = ["modkey", "Mod1"], key = "Delete" },
     { command = "Execute", value = "loginctl kill-session $XDG_SESSION_ID", modifier = ["modkey", "Shift"], key = "q" },

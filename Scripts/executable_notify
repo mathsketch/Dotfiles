@@ -26,9 +26,9 @@ backlight() {
     if [ "$value" -ge 66 ];then
         icon="${icon_dir}/brightness_high.svg"
     elif [ "$value" -ge 33 ];then
-        icon="${icon_dir}/brightness_low.svg"
-    else
         icon="${icon_dir}/brightness_medium.svg"
+    else
+        icon="${icon_dir}/brightness_low.svg"
     fi
 
     content="Backlight at ${value}%"

@@ -3,6 +3,7 @@ redir-port: 7892     # Redir模式代理端口
 allow-lan: false      # 允许局域网连接
 mode: Rule           # 默认代理模式，可在网页调试页面更换
 log-level: info      # 日志级别 silent / info / warning / error / debug
+ipv6: true
 external-controller: '127.0.0.1:9090'                                # 网页调试端口
 external-ui: yacd
 # secret: ""           # 网页调试密码，默认为空

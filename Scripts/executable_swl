@@ -6,7 +6,7 @@ quit() {
 }
 
 guic=$1;shift
-bspc -v &>/dev/null || { $guic "$@" &>/dev/null & exit; }
+[ "$DESKTOP_SESSION" == "bspwm" ] || { $guic "$@" &>/dev/null & exit; }
 
 trap quit EXIT INT
 
