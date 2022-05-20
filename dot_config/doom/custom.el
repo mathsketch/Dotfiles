@@ -15,11 +15,17 @@
            (pp-buffer)
            (indent-buffer))))
  '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
- '(warning-suppress-types '((before-save-hook) (before-save-hook))))
+ '(warning-suppress-types
+   '(((flycheck syntax-checker))
+     ((flycheck syntax-checker))
+     (before-save-hook)
+     (before-save-hook))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(aw-leading-char-face ((t (:foreground "#f9f5d7" :background "#cc241d" :weight bold :height 2.4))))
- '(font-lock-comment-face ((t (:slant italic)))))
+ '(font-lock-comment-face ((t (:slant italic))))
+ '(gts-pop-posframe-me-header-2-face ((t (:inherit default))))
+ '(gts-pop-posframe-me-header-face ((t (:inherit default)))))

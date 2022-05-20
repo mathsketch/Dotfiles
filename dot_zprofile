@@ -19,7 +19,13 @@ export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME:-$HOME/.confi
 export NUGET_PACKAGES="${XDG_CACHE_HOME:-$HOME/.cache}/NuGetPackages"
 export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}/gnupg"
 export GPODDER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/gPodder"
+export GRADLE_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/gradle"
 export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc"
+export MATHEMATICA_USERBASE="${XDG_CONFIG_HOME:-$HOME/.config}/mathematica"
+
+# bash history file
+# export HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash/history"
+# [ -d "${XDG_CACHE_HOME:-$HOME/.cache}/bash" ] || mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/bash"
 
 # man color
 export LESS_TERMCAP_mb=$'\e[1;31m'     # Start blinking

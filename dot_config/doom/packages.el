@@ -53,6 +53,11 @@
 (package! org-roam-ui)
 (package! centered-cursor-mode)
 
+(package! pdf-tools
+  :recipe (:host github :repo "vedang/pdf-tools"))
+
+(package! sublimity)
+(package! keycast)
 (package! carbon-now-sh)
 (package! chezmoi)
 (package! go-translate)

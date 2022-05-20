@@ -1,22 +1,22 @@
 modkey = "Mod4"
 mousekey = "Mod4"
-workspaces = [
-    { y = 0, x = 0, height = 1080, width = 1920 },
-]
 layout_mode = "Tag"
 disable_tile_drag = false
 insert_behavior = "Top"
+disable_current_tag_swap = true
+focus_behaviour = "Sloppy"
+focus_new_windows = true
 # max_window_width = 0.4
+workspaces = [
+    { y = 0, x = 0, height = 1080, width = 1920 },
+]
 tags = [ " ", " ", " ", " ", " ", " ", " ", " ", " ", " " ]
 layouts = ["MainAndVertStack", "MainAndDeck", "GridHorizontal", "Monocle"]
 scratchpad = [
-    { name = "terminal", value = "st", x = 300, y = 300, height = 600, width = 1320 },
+    { name = "terminal", value = "st", x = 300, y = 250, height = 640, width = 1320 },
     { name = "ncmpcpp", value = "st -A 100 -e mpp", x = 45, y = 652, height = 388, width = 1105 },
     { name = "emacs", value = "emacs", x = 250, y = 175, height = 750, width = 1469 },
 ]
-disable_current_tag_swap = false
-focus_behaviour = "Sloppy"
-focus_new_windows = true
 window_rules = [
   { window_class = "GoldenDict", spawn_floating = true },
   { window_class = "Tint2conf", spawn_floating = true },
@@ -25,7 +25,7 @@ window_rules = [
   { window_class = "Anki", spawn_floating = true },
   { window_class = "Google-chrome", spawn_on_tag = 2 },
   { window_class = "Microsoft-edge", spawn_on_tag = 2 },
-  { window_class = "jetbrains-idea-ce", spawn_on_tag = 2 },
+  { window_class = "jetbrains-idea-ce", spawn_on_tag = 3 },
   { window_class = "wps", spawn_on_tag = 6 },
   { window_class = "wpp", spawn_on_tag = 6 },
   { window_class = "et", spawn_on_tag = 6 },

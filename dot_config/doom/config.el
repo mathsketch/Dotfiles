@@ -10,6 +10,8 @@
 (add-to-list 'auto-mode-alist '("\\.yuck\\'" . lisp-mode))
 (setq browse-url-generic-program "qutebrowser"
       browse-url-browser-function 'browse-url-generic)
+;; truncation glyph
+(set-display-table-slot standard-display-table 0 ?\ )
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -74,6 +76,11 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type `relative)
 
+;; window
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
+
 ;; clipboard
 (setq select-enable-clipboard nil)
 (map! :after evil
@@ -92,25 +99,35 @@
 
 (setq deft-directory "~/Documents/notes/deft")
 (setq +org-present-text-scale 1.2)
-;; (use-package! org
-;;   :config)
+(after! org)
+
+;; vertico
+(after! vertico
+  (map! :map vertico-map
+        "C-l" #'+vertico/embark-preview))
 
 ;; lsp
 (after! lsp-mode
   (setq lsp-enable-file-watchers nil))
 
+;; disable flycheck buffer when ESC key pressed
+(after! flycheck
+  (remove-hook! 'doom-escape-hook #'+syntax-check-buffer-h))
+
 ;; tab config
-(setq x-underline-at-descent-line t)
-(setq centaur-tabs-height 32)
-(setq centaur-tabs-style "wave")
-(setq centaur-tabs-set-bar 'under)
-(setq centaur-tabs-set-modified-marker t)
-(setq centaur-tabs-modified-marker "")
+(setq x-underline-at-descent-line t
+      centaur-tabs-height 32
+      centaur-tabs-style "wave"
+      centaur-tabs-set-bar 'under
+      centaur-tabs-set-modified-marker t
+      centaur-tabs-modified-marker "")
 (after! centaur-tabs
   (centaur-tabs-change-fonts "FiraCode Nerd Font" 115))
 
 ;; highlight-indent-guides
-(setq highlight-indent-guides-responsive 'stack)
+(setq highlight-indent-guides-responsive 'stack
+      highlight-indent-guides-method 'bitmap
+      highlight-indent-guides-bitmap-function 'highlight-indent-guides--bitmap-line)
 
 ;; packages
 ;; (use-package! centered-cursor-mode
@@ -124,11 +141,34 @@
         "o RET" #'terminal-here-launch
         "o S-<return>" #'terminal-here-project-launch))
 
+(use-package! keycast
+  :config
+  (map! :leader "t k" #'keycast-mode)
+  (define-minor-mode keycast-mode
+   "Show current command and its key binding in the mode line."
+   :global t
+   (if (not keycast-mode)
+       (progn (setq global-mode-string (delete '("" keycast-mode-line " ") global-mode-string))
+              (remove-hook 'pre-command-hook 'keycast--update)
+              (message "Keycast disabled"))
+       (add-to-list 'global-mode-string '("" keycast-mode-line " "))
+       (add-hook 'pre-command-hook 'keycast--update t)
+       (message "Keycast enabled"))))
+
+
 ;; vterm
 (after! vterm
   (setq vterm-always-compile-module t
         vterm-ignore-blink-cursor nil
         vterm-timer-delay 0.01))
+
+;; flycheck
+(after! flycheck
+  (setq flycheck-idle-change-delay 5.0))
+
+;; company
+(after! company
+  (setq company-backends '(company-files)))
 
 ;; zoxide
 (add-hook 'find-file-hook 'zoxide-add)
@@ -148,16 +188,32 @@
 
 (use-package! go-translate
   :config
-  (setq gts-tts-try-speak-locally t)
-  (setq gts-buffer-follow-p t)
-  (setq gts-translate-list '(("en" "zh")))
-  (setq gts-default-translator (gts-method)))
+  (setq gts-tts-try-speak-locally t
+        gts-buffer-follow-p t
+        gts-translate-list '(("en" "zh"))
+        gts-default-translator (gts-method))
+  (custom-set-faces! '(gts-pop-posframe-me-header-face :inherit default))
+  (custom-set-faces! '(gts-pop-posframe-me-header-2-face :inherit default))
+  (add-hook 'gts-after-buffer-render-hook
+            (lambda (&rest _)
+              (turn-off-evil-mode -1))))
+
 
 (map! :leader "C-f" #'gts-do-translate)
 (map! :leader "m C-h" #'posframe-delete-all)
 
 ;; zen
 (setq +zen-text-scale 1.05)
+
+;; sublimity
+(use-package! sublimity :config
+  (use-package! sublimity-scroll :config
+    (setq sublimity-scroll-weight 5
+          sublimity-scroll-drift-length 8)
+    (add-to-list 'sublimity-disabled-major-modes 'vterm-mode)
+    (add-to-list 'sublimity-disabled-major-modes 'minibuffer-mode))
+  (sublimity-mode 1))
+
 
 ;; eaf
 ;; (use-package! eaf

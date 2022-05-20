@@ -16,7 +16,7 @@ export FZF_DEFAULT_OPTS='-i --border=rounded --margin=3 --reverse
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
 zstyle ':fzf-tab:*' default-color $'\033[39m'
-zstyle ':fzf-tab:complete:(cd|z):*' fzf-preview 'exa -1 --color=always ${word/\\/}'
+zstyle ':fzf-tab:complete:(cd|z):*' fzf-preview 'exa -1 --color=always $realpath'
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
@@ -129,9 +129,12 @@ source "${ZDOTDIR}/function.zsh"
 #
 setopt globdots
 setopt appendhistory
-SAVEHIST=10000
-HISTSIZE=10000
-HISTFILE="${ZSHDATA}/zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=10000
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+# setopt EXTENDED_HISTORY
+export HISTFILE="${ZSHDATA}/zsh_history"
 #stty stop undef
 stty ixany
 setopt interactivecomments
