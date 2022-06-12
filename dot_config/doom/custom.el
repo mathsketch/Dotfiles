@@ -3,23 +3,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("c4063322b5011829f7fdd7509979b5823e8eea2abf1fe5572ec4b7af1dd78519" "5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" default))
- '(ignored-local-variable-values
-   '((org-blank-before-new-entry
-      (heading . auto)
-      (plain-list-item . auto))
-     (org-list-description-max-indent . 5)
-     (org-list-two-spaces-after-bullet-regexp)
-     (eval progn
-           (pp-buffer)
-           (indent-buffer))))
- '(safe-local-variable-values '((eval progn (pp-buffer) (indent-buffer))))
- '(warning-suppress-types
-   '(((flycheck syntax-checker))
-     ((flycheck syntax-checker))
-     (before-save-hook)
-     (before-save-hook))))
+ '(elfeed-feeds '("https://feeds.simplecast.com/BqbsxVfO"))
+ '(org-agenda-files
+   '("/home/arux/Documents/notes/Org/org_basic.org" "/home/arux/Documents/notes/Org/elfeed.org" "/home/arux/Documents/notes/Org/journal.org" "/home/arux/Documents/notes/Org/learn_how_to_learn.org" "/home/arux/Documents/notes/Org/notes.org" "/home/arux/Documents/notes/Org/projects.org" "/home/arux/Documents/notes/Org/todo.org"))
+ '(warning-suppress-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

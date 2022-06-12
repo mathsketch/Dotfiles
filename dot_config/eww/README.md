@@ -3,7 +3,7 @@
 + light (Backlight controller)
 + upower (for battery)
 + qdbus
-+ leftwm
++ leftwm or qtile
 + NetworkManager
 + playerctl (mpris player controller)
 + pacmd pamixer pactl (for pulseaudio)

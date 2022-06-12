@@ -3,6 +3,7 @@
 (defvar reveal_volume false)
 (defvar reveal_date false)
 (defvar reveal_music false)
+(defvar reveal_layout false)
 
 ; backlight var
 (defvar backlight_icon " ")
@@ -47,5 +48,10 @@
 (defpoll date_all :interval "1s" 'date "+%Y %A %B %d"')
 
 ;wm var
-(deflisten wmtags "~/.config/eww/scripts/getleftwmstate")
-(deflisten titlename '~/.config/eww/scripts/getworkspaceinfo')
+(deflisten workspace_data "~/.config/eww/scripts/getleftwmstate")
+(deflisten title "~/.config/eww/scripts/getworkspaceinfo")
+
+(defvar layout_name "unknown")
+
+; qtile key chord
+(defvar chord_mode "")

@@ -8,17 +8,16 @@ focus_behaviour = "Sloppy"
 focus_new_windows = true
 # max_window_width = 0.4
 workspaces = [
-    { y = 0, x = 0, height = 1080, width = 1920 },
+    # { y = 0, x = 0, height = 1080, width = 1920 },
 ]
 tags = [ " ", " ", " ", " ", " ", " ", " ", " ", " ", " " ]
 layouts = ["MainAndVertStack", "MainAndDeck", "GridHorizontal", "Monocle"]
 scratchpad = [
-    { name = "terminal", value = "st", x = 300, y = 250, height = 640, width = 1320 },
+    { name = "terminal", value = "st -e sh -c 'tmux has-session 2>/dev/null || tmux new && tmux attach'", x = 240, y = 0, height = 720, width = 1440 },
     { name = "ncmpcpp", value = "st -A 100 -e mpp", x = 45, y = 652, height = 388, width = 1105 },
-    { name = "emacs", value = "emacs", x = 250, y = 175, height = 750, width = 1469 },
 ]
 window_rules = [
-  { window_class = "GoldenDict", spawn_floating = true },
+  # { window_class = "GoldenDict", spawn_floating = true },
   { window_class = "Tint2conf", spawn_floating = true },
   { window_class = "flameshot", spawn_floating = true },
   { window_class = "Peek", spawn_floating = true },
@@ -44,7 +43,6 @@ keybind = [
     # layout
     { command = "NextLayout", modifier = ["modkey", "Shift"], key = "period" },
     { command = "PreviousLayout", modifier = ["modkey", "Shift"], key = "comma" },
-    { command = "SetLayout", value = "MainAndVertStack", modifier = ["modkey"], key = "s" },
     { command = "SetLayout", value = "MainAndDeck", modifier = ["modkey"], key = "d" },
     { command = "SetLayout", value = "GridHorizontal", modifier = ["modkey"], key = "g" },
     { command = "SetMarginMultiplier", value = "1.0", modifier = ["modkey", "Shift"], key = "m" },
@@ -53,12 +51,12 @@ keybind = [
     { command = "DecreaseMainWidth", value = "2", modifier = ["modkey", "Shift"], key = "Down" },
     # window
     { command = "CloseWindow", modifier = ["modkey"], key = "w" },
+    { command = "Execute", value = "kill -9 $(xdotool getwindowpid $(xdotool getactivewindow))", modifier = ["modkey", "Shift"], key = "w" },
     { command = "ToggleFloating", modifier = ["modkey"], key = "e" },
     { command = "ToggleSticky", modifier = ["modkey"], key = "p" },
     { command = "ToggleFullScreen", modifier = ["modkey"], key = "f" },
     { command = "ToggleScratchPad", value = "terminal", modifier = ["modkey", "Shift"], key = "Return" },
     { command = "ToggleScratchPad", value = "ncmpcpp", modifier = ["modkey"], key = "u" },
-    { command = "ToggleScratchPad", value = "emacs", modifier = ["modkey"], key = "n" },
     # move focus
     { command = "MoveWindowUp", modifier = ["modkey", "Shift"], key = "k" },
     { command = "MoveWindowDown", modifier = ["modkey", "Shift"], key = "j" },
@@ -106,11 +104,19 @@ keybind = [
             rofi -sep ',' -p 'Layout' -dmenu -i)" """, modifier = ["modkey"], key = "a" },
     { command = "Execute", value = """ [ "$(leftwm-state -w 0 -q -s "{{ workspace.layout }}")" == "Monocle" ] && 
             leftwm command "SetLayout MainAndVertStack" || leftwm command "SetLayout Monocle" """, modifier = ["modkey", "Shift"], key = "f" },
-    { command = "Execute", value = "rofi -show drun -theme-str '*{tc:@yl;}' -show-icons -selected-row 0", modifier = ["Mod1"], key = "space" },
+    { command = "Execute", value = """ [ "$(leftwm-state -w 0 -q -s "{{ workspace.layout }}")" == "MainAndVertStack" ] && 
+            leftwm command "SetLayout Monocle" || leftwm command "SetLayout MainAndVertStack" """, modifier = ["modkey"], key = "s" },
+    { command = "Execute", value = """ [ "$(leftwm-state -w 0 -q -s "{{ workspace.layout }}")" == "MainAndHorizontalStack" ] &&
+            leftwm command "SetLayout Monocle" || leftwm command "SetLayout MainAndHorizontalStack" """, modifier = ["modkey", "Shift"], key = "s" },
+    { command = "Execute", value = "$HOME/.config/eww/scripts/toggleww", modifier = ["modkey"], key = "b" },
+    { command = "Execute", value = "eww open --toggle topbar", modifier = ["modkey", "Shift"], key = "b" },
+    { command = "Execute", value = "rofi -show drun -theme-str '*{tc:@yl;}' -show-icons -selected-row 0", modifier = ["modkey"], key = "grave" },
     { command = "Execute", value = "$HOME/.config/rofi/bin/cliprint.sh", modifier = ["modkey"], key = "v" },
-    { command = "Execute", value = "LC_ALL=en_US.UTF-8 $HOME/.config/rofi/bin/setting.sh", modifier = ["Control", "Mod1"], key = "space" },
+    { command = "Execute", value = "LC_ALL=en_US.UTF-8 $HOME/.config/rofi/bin/setting.sh", modifier = ["modkey", "Shift"], key = "grave" },
     { command = "Execute", value = "$HOME/.config/rofi/bin/menu_powermenu.sh", modifier = ["modkey", "Mod1"], key = "Delete" },
-    { command = "Execute", value = "loginctl kill-session $XDG_SESSION_ID", modifier = ["modkey", "Shift"], key = "q" },
+    { command = "Execute", value = "ocr_dict", modifier = ["modkey", "Shift"], key = "d" },
+    { command = "Execute", value = "hide_window", modifier = ["modkey", "Shift"], key = "h" },
+    { command = "Execute", value = "loginctl kill-session $XDG_SESSION_ID", modifier = ["modkey", "Shift", "Mod1"], key = "q" },
     { command = "Execute", value = "st", modifier = ["modkey"], key = "Return" },
     # media key
     { command = "Execute", value = "$HOME/file/Script/touchpad_toggle.sh", modifier = [], key = "XF86XK_TouchpadToggle" },

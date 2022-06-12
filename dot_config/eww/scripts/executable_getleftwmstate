@@ -15,10 +15,14 @@ cleanup() {
 
 trap cleanup SIGINT SIGTERM EXIT
 
-leftwm-state -w 0 -t ~/.config/leftwm/eww.liquid | while read -r content;do
-    if [ -z "$previous_content" ] || [ "$previous_content" != "$content" ];then
-        previous_content="$content"
-        echo "$content"
-    fi
-done &
-wait
+if [ "$DESKTOP_SESSION" == "leftwm" ] || [ "$XDG_SESSION_DESKTOP" == "leftwm" ];then
+    leftwm-state -w 0 -t ~/.config/leftwm/eww.liquid | while read -r content;do
+        if [ -z "$previous_content" ] || [ "$previous_content" != "$content" ];then
+            previous_content="$content"
+            echo "$content"
+        fi
+    done &
+    wait
+fi
+
+cleanup

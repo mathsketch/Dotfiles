@@ -145,12 +145,17 @@ This is a help function to define interactive commands like
                      (zoxide-query query)
                    (zoxide-query))))
     (catch 'res
-     (cond ((length< results 1) (throw 'res nil))
-           ((length= results 1) (setq default-directory (concat (car results) "/")))
-           ((length> results 1) (setq default-directory (concat (completing-read "path: " results nil t) "/"))))
-     (if (and (not noninteractive) (commandp callback))
-         (call-interactively callback)
-       (funcall callback default-directory)))))
+      (cond ((length< results 1) (throw 'res nil))
+            ((length= results 1)
+             (let ((default-directory (concat (car results) "/")))
+               (if (and (not noninteractive) (commandp callback))
+                   (call-interactively callback)
+                 (funcall callback default-directory))))
+            ((length> results 1)
+             (let ((default-directory (concat (completing-read "path: " results nil t) "/")))
+               (if (and (not noninteractive) (commandp callback))
+                   (call-interactively callback)
+                 (funcall callback default-directory))))))))
 
 
 ;;;###autoload

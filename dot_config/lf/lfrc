@@ -50,7 +50,7 @@ set ifs "\n"
 #
 cmd colsfix ${{
     w=$(tput cols)
-    if [ "$w" -le 80 ]; then
+    if [ "$w" -le 120 ]; then
         lf -remote "send $id set ratios 3:5"
     else
         lf -remote "send $id set ratios 2:3:5"
@@ -77,21 +77,31 @@ cmd open ${{
     esac
 }}
 
-cmd jump %{{
-    res=$(zoxide query --exclude "$PWD" "${1:-}")
+cmd kdeconnect_share ${{
+    device_id=$(kdeconnect-cli -a --id-only | awk '{print $1}')
+    kdeconnect-cli -d "$device_id" --share "$f" && \
+    notify-send -a "Kdeconnect" "Sending $f" || \
+    lf -remote "send $id echoerr 'Not Connected Devices!'"
+    lf -remote "send $id unselect"
+}}
+
+cmd jump ${{
+    set +e
+    res=$(zoxide query --exclude "$PWD" "${1:-}" 2>/dev/null)
     if [[ -d "$res" ]];then
         lf --remote "send $id cd '$res'"
     else
-        lf --remote "echoerr 'Not found!'"
+        lf --remote "send $id echoerr 'Not found!'"
     fi
 }}
 
 cmd jumpall ${{
-    res=$(zoxide query -ls "${1:-}" | fzf)
+    set +e
+    res=$(zoxide query -ls "${1:-}" 2>/dev/null | fzf)
     if [[ -d "$res" ]];then
         lf --remote "send $id cd '$res'"
     else
-        lf --remote "echoerr 'Not found!'"
+        lf --remote "send $id echoerr 'Not found!'"
     fi
 }}
 
@@ -103,16 +113,19 @@ cmd paste &{{
     set -- $(cat ~/.local/share/lf/files)
     mode="$1"
     shift
-    name=$(basename "$@")
-    while [ -f "$name" ] || [ -d "$name" ];do
-        name="${name}_"
+    [ -z "$@" ] && exit 1
+    printf '%s\n' "$@" | while IFS= read -r path;do
+        name=$(basename "$path")
+        while [ -f "$name" ] || [ -d "$name" ];do
+            name="${name}_"
+        done
+        case "$mode" in
+            copy) cp -rn -- "$path" "$name";;
+            move) mv -n -- "$path" "$name";;
+        esac
     done
-    case "$mode" in
-        copy) cp -rn -- "$@" "$name";;
-        move) mv -n -- "$@" "$name";;
-    esac
     rm ~/.local/share/lf/files
-    lf -remote "send clear"
+    lf -remote "send $id clear"
     lf -remote "send $id reload"
 }}
 
@@ -130,7 +143,7 @@ cmd bulk_rename ${{
         if [ "$src" == "$dst" ] || [ -e "$dst" ]; then
             continue
         fi
-        mv -- "$src" "$dst"
+        mv -n -- "$src" "$dst"
     done
     rm -- "$old" "$new"
     lf -remote "send $id unselect"
@@ -250,6 +263,7 @@ map X !$f
 
 map sp :set_wallpaper
 map sx $chmod +x $f
+map sf :kdeconnect_share
 map t
 map te extract
 map ta push :tar<space>
@@ -286,6 +300,7 @@ map gd cd ~/Downloads
 map gm cd ~/Music
 map gv cd ~/Videos
 map gp cd ~/Pictures
+map gb cd ~/Books
 map gs cd ~/.local/share
 map gc cd ~/.config
 

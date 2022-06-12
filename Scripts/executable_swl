@@ -1,30 +1,56 @@
 #!/usr/bin/bash
-quit() {
-    bspc node "$TERWID" --flag hidden=off -f
-    pkill -P $$
-    exit 0
+exec_cmd=$1;shift
+
+bspc_swallow () {
+    quit() {
+        bspc node "$TERWID" --flag hidden=off -f
+        pkill -P $$
+        exit 0
+    }
+
+    trap quit EXIT INT
+
+    termwid=$(bspc query -N -n focused.local.window)
+    state=$(bspc query -T -n "$termwid" | sed -ne 's/.*\"state\":"\([a-z_]*\)",.*/\1/p')
+
+    { $exec_cmd "$@";kill -INT $$; } &
+    gpid=$!
+
+    bspc subscribe node_add | while read -r event
+    do
+        wid=$(echo "$event" | awk '{print $5}')
+        npid=$(xdotool getwindowpid "$wid")
+        nppid=$(ps -o ppid= -p "$npid")
+        if [[ $gpid -eq "$nppid" ]];then
+            bspc node "$wid" --state "$state"
+            bspc node "$termwid" --flag hidden=on
+            break
+        fi
+    done &
+    wait
 }
 
-guic=$1;shift
-[ "$DESKTOP_SESSION" == "bspwm" ] || { $guic "$@" &>/dev/null & exit; }
+qtile_swallow() {
+    python -c "
+from libqtile.command.client import InteractiveCommandClient
+import sys
+import subprocess
+c = InteractiveCommandClient()
+if c.status() == 'OK':
+    win_id = c.window.info()['id']
+    c.window[win_id].toggle_minimize()
+    if len(sys.argv) > 1:
+        subprocess.run(sys.argv[1:])
+    c.window[win_id].toggle_minimize()
+" "$@"
+}
 
-trap quit EXIT INT
-
-TERWID=$(bspc query -N -n focused.local.window)
-state=$(bspc query -T -n "$TERWID" | sed -ne 's/.*\"state\":"\([a-z_]*\)",.*/\1/p')
-
-{ $guic "$@";kill -INT $$; } &
-gpid=$!
-
-bspc subscribe node_add | while read -r event
-do
-    wid=$(echo "$event" | awk '{print $5}')
-    npid=$(xdotool getwindowpid "$wid")
-    nppid=$(ps -o ppid= -p "$npid")
-    if [[ $gpid -eq "$nppid" ]];then
-        bspc node "$wid" --state "$state"
-        bspc node "$TERWID" --flag hidden=on
-        break
-    fi
-done &
-wait
+if [ "$DESKTOP_SESSION" == "bspwm" ];then
+    bspc_swallow "$@"
+elif [ "$DESKTOP_SESSION" == "qtile" ];then
+     qtile_swallow "$exec_cmd" "$@"
+elif command -v devour >/dev/null;then
+    devour "$exec_cmd" "$@" &>/dev/null
+else
+    $exec_cmd "$@" &>/dev/null &
+fi

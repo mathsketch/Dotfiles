@@ -49,15 +49,28 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(unpin! org-roam)
-(package! org-roam-ui)
-(package! centered-cursor-mode)
+(if (featurep! :lang org +roam2)
+    (progn
+      (unpin! org-roam)
+      (package! org-roam-ui)))
 
-(package! pdf-tools
-  :recipe (:host github :repo "vedang/pdf-tools"))
+(package! centered-cursor-mode)
+;; (package! major-mode-hydra)
+
+(unpin! pdf-tools)
+(if (featurep! :tools lsp +eglot)
+    (progn
+      (package! flymake-flycheck)
+      (package! eldoc-box)))
+      ;; (package! eglot :pin "21ab73c0a4cff88b1356d459f97796e431e80ad1")))
+
+
+(if (featurep! :ui zen)
+    (package! focus))
 
 (package! sublimity)
 (package! keycast)
+;; (package! redacted)
 (package! carbon-now-sh)
 (package! chezmoi)
 (package! go-translate)

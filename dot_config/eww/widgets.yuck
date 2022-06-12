@@ -22,21 +22,21 @@
       (box :space-evenly false
         (metric :name "backlight"
                 :value backlight
-                :onchange "~/.config/eww/scripts/getbacklight set $(echo {} | sed 's/\\..*//g')"))
+                :onchange "${EWW_CONFIG_DIR}/scripts/getbacklight set $(echo {} | sed 's/\\..*//g')"))
       (label :class "backlight-label" :text backlight_icon))))
 
 (defwidget date []
   (box :class "date" :halign "center" :space-evenly false :orientation "h"
        :tooltip date_all
     (hover_revealer_right :name "date" :var reveal_date :transition "slideleft"
-      (ebtn :class "date-button" :onclick "~/.config/eww/scripts/toggleww -t calendar"
+      (ebtn :class "date-button" :onclick "${EWW_CONFIG_DIR}/scripts/toggleww -t calendar"
         (label :text date))
-      (ebtn :class "date-button" :onclick "~/.config/eww/scripts/toggleww -t calendar"
+      (ebtn :class "date-button" :onclick "${EWW_CONFIG_DIR}/scripts/toggleww -t calendar"
         (label :text ":${second}")))))
 
 (defwidget battery []
   (box :class "battery" :tooltip battery_info :visible {battery_icon != "" ? true : false}
-    (ebtn :class "battery-button" :onclick "~/.config/eww/scripts/toggleww -t battery_win"
+    (ebtn :class "battery-button" :onclick "${EWW_CONFIG_DIR}/scripts/toggleww -t battery_win"
       (label :text battery_icon))))
 
 (defwidget network []
@@ -49,7 +49,7 @@
        :tooltip "CPU usage: ${round(EWW_CPU.avg, 0)}%"
     (circle_info 
       :name "cpu" :width 31
-      :onclick "~/.config/eww/scripts/toggleww -t system_win"
+      :onclick "${EWW_CONFIG_DIR}/scripts/toggleww -t system_win"
       :value {round(EWW_CPU.avg, 0)}
       :icon " ")))
 
@@ -58,7 +58,7 @@
        :tooltip "RAM used: ${round(EWW_RAM.used_mem_perc, 0)}%"
     (circle_info 
       :name "ram" :width 31 
-      :onclick "~/.config/eww/scripts/toggleww -t system_win"
+      :onclick "${EWW_CONFIG_DIR}/scripts/toggleww -t system_win"
       :value {round(EWW_RAM.used_mem_perc, 0)}
       :icon "﬙ ")))
 
@@ -69,7 +69,7 @@
 (defwidget playerctl []
   (box :class "playerctl" :space-evenly false :spacing 10
     (ebtn :class "music-button" :halign "center" :tooltip music_info 
-          :active {music_player != ""} :onclick "~/.config/eww/scripts/toggleww -t music_win"
+          :active {music_player != ""} :onclick "${EWW_CONFIG_DIR}/scripts/toggleww -t music_win"
       (label :class "music-title" :limit-width 25 
              :text " ${music_info}")) 
     (box :class "music-control" :halign "center" :space-evenly false
@@ -136,7 +136,7 @@
     (ram_circle)
     (cpu_circle)
     (sep)
-    (ebtn :class "sub-button" :onclick "~/.config/eww/scripts/toggleww"
+    (ebtn :class "sub-button" :onclick "${EWW_CONFIG_DIR}/scripts/toggleww"
       (label :text " "))
     (network)
     (battery)
@@ -152,20 +152,38 @@
           :onclick "rofi -show drun -theme-str '*{tc:@yl;}' -show-icons -selected-row 0 &"
       (label :text " "))
     (sep)
-    (wmbar)))
+    (workspace)
+    (workspace_layout)))
 
-; title
-(defwidget titlebar []
-  (box :class "titlebar" :orientation "h"  :halign "start" :space-evenly false
+; window title
+(defwidget window_title []
+  (box :class "window-title" :orientation "h"  :halign "start" :space-evenly false
     (label :class "title-label" :limit-width 40
            :wrap true
-           :markup titlename)))
+           :markup title)))
 
-; wm tags
-(defwidget wmbar []
-  (box :class "wmbar" :orientation "h" :halign "start" 
-    (eventbox :onscroll "~/.config/eww/scripts/scrolltags {}" :cursor "pointer"
-      (literal :content wmtags))))
+; workspaces(i3wm) or tags(leftwm) or groups(qtile) or desktops(bspwm)
+(defwidget workspace []
+  (box :class "workspace" :orientation "h" :halign "start"
+       (eventbox :onscroll "${EWW_CONFIG_DIR}/scripts/scrollworkspace {} &" :cursor "pointer"
+                 (box :orientation "h" :class "workspaces" :space-evenly false :halign "fill"
+                      (for entry in workspace_data
+                           (button :class "${entry.class}"
+                                   :onclick "${entry.click}"
+                                   "${entry.icon} "))))))
+
+; display dynamic tiling window manager's layout
+(defwidget workspace_layout []
+  (box :class "ws-layout ${chord_mode}" :orientation "h" :halign "center" :space-evenly false :spacing 10
+       (hover_revealer_right
+        :name "layout" :var reveal_layout
+        (image :image-width 18 :image-height 18 :halign "fill"
+               :path "${EWW_CONFIG_DIR}/icons/layout_${layout_name}.png")
+        (ebtn :class "ws-layout-button"
+              :onclick "${EWW_CONFIG_DIR}/scripts/cyclelayout next &"
+              :onrightclick "${EWW_CONFIG_DIR}/scripts/cyclelayout prev &"
+              "${layout_name}"))))
+
 
 ; a calendar
 (defwidget cal []
@@ -237,7 +255,7 @@
 ; sub
 (defwidget subbar []
   (box :class "subbar" :valign "center"
-    (titlebar)))
+    (window_title)))
 
 ; old info bar layout
 (defwidget infobar []

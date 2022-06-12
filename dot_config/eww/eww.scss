@@ -89,7 +89,7 @@ calendar {
 }
 
 .workspaces {
-    margin-top: 4px;
+    margin-top: 3.5px;
     .ws-button {
         color: $fga;
     }
@@ -99,7 +99,28 @@ calendar {
     .ws-button-visible {
         color: $yellow;
     }
+    .ws-button-specified {
+        font-family: Iosevka;
+        font-size: 1.2rem;
+        padding-left: 10px;
+    }
     button:hover { color: $yellow; }
+}
+
+.ws-layout {
+    font-weight: bold;
+    font-size: 1.0rem;
+    background-color: $bga;
+    padding: 1.5px 12px 0px;
+    margin: 8px 0px 6px 0px;
+    color: $fg;
+    border-radius: 10px;
+    button:hover { color: $green; }
+    button { margin-left: 10px; }
+
+    &.chord_on {
+        background-color: $red;
+    }
 }
 
 .leftside {
@@ -200,7 +221,7 @@ calendar {
     :hover { color: $yellow; }
 }
 
-.titlebar {
+.window-title {
     font-size: 1.1rem;
     padding: 0px 20px 0px 10px;
     border-radius: 0px 17px 17px 0px;
@@ -211,7 +232,7 @@ calendar {
     }
 }
 
-.wmbar {
+.workspace {
     font-size: 1.5rem;
     border-radius: 0px 17px 17px 0px;
     padding: 0px 10px 0px 15px;
@@ -249,11 +270,10 @@ calendar {
 .topbar {
     background-color: $bg;
     color: $fg;
-    .wmbar { 
-        padding: 1px 0px 0px 0px;     
+    .workspace {
+        padding: 0px;     
         font-size: 1.4rem;
     }
-    .workspaces { margin-top: 5px; }
     .musicbar { margin-top: 4px; }
 }
 

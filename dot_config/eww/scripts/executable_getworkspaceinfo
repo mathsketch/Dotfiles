@@ -15,5 +15,7 @@ cleanup() {
 
 trap cleanup SIGINT SIGTERM EXIT
 
-leftwm-state -w 0 -t ~/.config/leftwm/workspace.liquid &
-wait
+if [ "$DESKTOP_SESSION" == "leftwm" ] || [ "$XDG_SESSION_DESKTOP" == "leftwm" ];then
+    leftwm-state -w 0 -t ~/.config/leftwm/workspace.liquid &
+    wait
+fi

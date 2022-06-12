@@ -61,7 +61,7 @@
   :geometry (geometry :x 80 :y 66 :width "750" :height "34" :anchor "left top")
   :reserve (struts :distance "100" :side "top")
   :windowtype "dock"
-  :wm-ignore false
+  :wm-ignore true
   (subbar))
 
 (defwindow battery_win

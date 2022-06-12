@@ -1,13 +1,33 @@
-(box :orientation "h" :class "workspaces" :space-evenly true :halign "fill"
+[
 {% for tag in workspace.tags %}
 {% if tag.mine %}
-(button :class "ws-button-mine" " ")
+{
+    "class": "ws-button-mine",
+    "click": "leftwm command 'SendWorkspaceToTag {{workspace.index}} {{tag.index}}'",
+    "icon": ""
+}
 {% elsif tag.visible  %}
-(button :class "ws-button-visible" " ")
+{
+    "class": "ws-button-visible",
+    "click": "leftwm command 'SendWorkspaceToTag {{workspace.index}} {{tag.index}}'",
+    "icon": ""
+}
 {% elsif tag.busy  %}
-(button :class "ws-button-busy" :onclick 'leftwm command "SendWorkspaceToTag {{workspace.index}} {{tag.index}}"' " ")
+{
+    "class": "ws-button-busy",
+    "click": "leftwm command 'SendWorkspaceToTag {{workspace.index}} {{tag.index}}'",
+    "icon": ""
+}
 {% else tag.visible  %}
-(button :class "ws-button" :onclick 'leftwm command "SendWorkspaceToTag {{workspace.index}} {{tag.index}}"' " ")
+{
+    "class": "ws-button",
+    "click": "leftwm command 'SendWorkspaceToTag {{workspace.index}} {{tag.index}}'",
+    "icon": ""
+}
+{% endif %}
+{% if forloop.last %}
+{% else %}
+,
 {% endif %}
 {% endfor %}
-)
+]
