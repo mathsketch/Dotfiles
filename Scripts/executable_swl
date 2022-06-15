@@ -38,10 +38,12 @@ import subprocess
 c = InteractiveCommandClient()
 if c.status() == 'OK':
     win_id = c.window.info()['id']
-    c.window[win_id].toggle_minimize()
-    if len(sys.argv) > 1:
+    win = c.window[win_id]
+    if len(sys.argv) > 1 and sys.argv[1]:
+        win.toggle_minimize()
         subprocess.run(sys.argv[1:])
-    c.window[win_id].toggle_minimize()
+    if win.info()['minimized']:
+        win.toggle_minimize()
 " "$@"
 }
 

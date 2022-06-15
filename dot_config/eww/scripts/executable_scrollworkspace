@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+action=$1
+qtile_pre="from libqtile.command.client import InteractiveCommandClient
+c = InteractiveCommandClient()"
+
+if [ "$DESKTOP_SESSION" == "leftwm" ] || [ "$XDG_SESSION_DESKTOP" == "leftwm" ];then
+   if [ "$action" == "up" ];then
+      leftwm command "FocusPreviousTag"
+   else
+      leftwm command "FocusNextTag"
+   fi
+elif [ "$DESKTOP_SESSION" == "qtile" ] || [ "$XDG_SESSION_DESKTOP" == "qtile" ];then
+   if [ "$action" == "up" ];then
+      python -c "${qtile_pre};c.screen.prev_group()"
+   else
+      python -c "${qtile_pre};c.screen.next_group()"
+   fi
+fi

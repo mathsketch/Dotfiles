@@ -49,7 +49,10 @@ special_groups = [
         "config": {
             "name": "design",
             "persist": False,
-            "matches": [Match(wm_class=re.compile('^Gimp.*?'))],
+            "matches": [Match(wm_class=re.compile('^Gimp.*?')),
+                        Match(wm_class="Blender"),
+                        Match(wm_class="Inkscape"),
+                        Match(wm_class="Aseprite"),],
             "label": "",
         },
         "deny_move": True,
@@ -157,13 +160,24 @@ async def float_to_front(_):
         if hasattr(window, "floating") and window.floating:
             window.cmd_bring_to_front()
 
+#
+# for qtile window auto toggle minimize
+#
 # @hook.subscribe.focus_change
-# async def focus_float_to_front():
+# async def auto_unminimize():
 #     win = qtile.current_window
-#     if hasattr(win, "floating") and win.floating:
-#         win.cmd_bring_to_front()
+#     if win.minimized:
+#         win.minimized = False
 
+# @hook.subscribe.float_change
+# async def auto_minimize_no_focus():
+#     win = qtile.current_window
+#     if win.minimized:
+#         win.group.cmd_focus_back()
+
+#
 # fix plank covered by other windows
+#
 # plank_wid = 0
 # @hook.subscribe.client_new
 # @hook.subscribe.group_window_add

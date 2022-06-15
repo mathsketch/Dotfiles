@@ -14,6 +14,10 @@
 (set-display-table-slot standard-display-table 0 ?\ )
 (setq delete-by-moving-to-trash nil)
 
+;; ;; transparency
+;; (set-frame-parameter (selected-frame) 'alpha '(90 . 50))
+;; (add-to-list 'default-frame-alist '(alpha . (90 . 50)))
+
 ;; evil split
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
@@ -41,7 +45,7 @@
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 24 :weight 'normal)
       doom-serif-font (font-spec :family "Comic Sans MS" :size 20 :weight 'normal))
 
-(setq fancy-splash-image "~/.config/doom/banner/minecraft.png")
+;; (setq fancy-splash-image "~/.config/doom/banner/minecraft.png")
 
 (defun init-cjk-fonts()
   (dolist (charset '(kana han cjk-misc bopomofo))

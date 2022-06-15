@@ -66,7 +66,9 @@ cmd open ${{
         text/*|application/json|application/x-shellscript|application/x-wine-extension-ini|application/x-md|application/x-yaml|application/toml) 
             $EDITOR $f;;
         application/pdf|application/epub+zip) 
-            swl zathura $f;;
+            swl sioyek $f &>/dev/null;;
+        # application/pdf|application/epub+zip) 
+        #     swl zathura $f;;
         image/png|image/jpeg) 
             swl nsxiv $fx;;
         image/gif) 
