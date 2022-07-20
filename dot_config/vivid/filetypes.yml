@@ -80,6 +80,10 @@ text:
       - passwd
       - shadow
 
+  key:
+    - .gpg
+    - .key
+
   other:
     - .txt
 
@@ -94,6 +98,7 @@ markup:
     - .csv
     - .markdown
     - .md
+    - .org
     - .mdown
     - .rst
     - .xml

@@ -26,6 +26,30 @@ format = """\
     $line_break\
     $character\
 """
+# format = """\
+#     [](fg:black)[${custom.icon}$username $directory\
+#     ( $python)\
+#     ( $rust)\
+#     ( $golang)\
+#     ( $java)\
+#     ( $lua)\
+#     ( $nodejs)\
+#     ( $conda)\
+#     ( $cmake)\
+#     ( $cmd_duration)](bg:black)\
+#     [](fg:black)\
+#     ( $jobs)\
+#     ( ${custom.proxy})\
+#     ( ${custom.lfshell})\
+#     $line_break\
+#     $character\
+# """
+# right_format = """
+#     [](fg:black)[( $git_branch$git_commit$git_state$git_metrics$git_status)\
+#     (${custom.giturl} )\
+#     ($hg_branch)](bg:black)\
+#     [](fg:black)\
+# """
 scan_timeout = 10
 command_timeout = 5000
 add_newline = false

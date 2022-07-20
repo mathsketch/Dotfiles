@@ -48,7 +48,8 @@
 (defpoll date_all :interval "1s" 'date "+%Y %A %B %d"')
 
 ;wm var
-(deflisten workspace_data "~/.config/eww/scripts/getleftwmstate")
+; (deflisten workspace_data :initial "[]" "~/.config/eww/scripts/getleftwmstate")
+(deflisten workspace_data :initial "[]" "~/.config/eww/scripts/getqtileinfo")
 (deflisten title "~/.config/eww/scripts/getworkspaceinfo")
 
 (defvar layout_name "unknown")

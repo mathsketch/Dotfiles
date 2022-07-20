@@ -9,9 +9,7 @@ pgrep fcitx5 || fcitx5 &
 xset s 1200 60;xss-lock -n dim-screen.sh -- screen_lock &
 touchpad_toggle off &
 pgrep -x greenclip || greenclip daemon &
-pgrep -x dunst || dunst &
+# pgrep -x dunst || dunst &
 playerctld daemon &
 /usr/lib/kdeconnectd &
-# pgrep -x tint2 || tint2 & sleep 2 && xdo move -x 0 -y 0 $(xdo id -n tint2) &
-# $HOME/.config/polybar/launch.sh &
-"$HOME/.config/eww/launch.sh" &
+"$HOME/.config/eww/launch.sh"

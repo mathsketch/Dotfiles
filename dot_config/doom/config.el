@@ -45,7 +45,7 @@
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 24 :weight 'normal)
       doom-serif-font (font-spec :family "Comic Sans MS" :size 20 :weight 'normal))
 
-;; (setq fancy-splash-image "~/.config/doom/banner/minecraft.png")
+(setq fancy-splash-image "~/.config/doom/banner/minecraft.png")
 
 (defun init-cjk-fonts()
   (dolist (charset '(kana han cjk-misc bopomofo))

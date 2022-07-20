@@ -1,7 +1,7 @@
 export TERMINAL=/usr/local/bin/st
 export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
-export PATH="$HOME/.config/emacs/bin:$HOME/.local/bin/Scripts:$HOME/.local/bin:${PATH}"
+export PATH="$HOME/.config/emacs/bin:$HOME/.local/share/npm/bin/:$HOME/.local/bin/Scripts:$HOME/.local/bin:${PATH}"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -22,6 +22,7 @@ export GPODDER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/gPodder"
 export GRADLE_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/gradle"
 export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc"
 export MATHEMATICA_USERBASE="${XDG_CONFIG_HOME:-$HOME/.config}/mathematica"
+export TIMEWARRIORDB="${XDG_DATA_HOME:-$HOME/.local/share}/timewarrior"
 
 # bash history file
 # export HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash/history"

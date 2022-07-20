@@ -177,7 +177,7 @@
   (box :class "ws-layout ${chord_mode}" :orientation "h" :halign "center" :space-evenly false :spacing 10
        (hover_revealer_right
         :name "layout" :var reveal_layout
-        (image :image-width 18 :image-height 18 :halign "fill"
+        (image :image-width 18 :image-height 18 :halign "center" :valign "center"
                :path "${EWW_CONFIG_DIR}/icons/layout_${layout_name}.png")
         (ebtn :class "ws-layout-button"
               :onclick "${EWW_CONFIG_DIR}/scripts/cyclelayout next &"

@@ -47,10 +47,15 @@ if c.status() == 'OK':
 " "$@"
 }
 
+if [ -n "$NO_SWL" ];then
+    $exec_cmd "$@" &>/dev/null &
+    exit 0
+fi
+
 if [ "$DESKTOP_SESSION" == "bspwm" ];then
     bspc_swallow "$@"
-elif [ "$DESKTOP_SESSION" == "qtile" ];then
-     qtile_swallow "$exec_cmd" "$@"
+# elif [ "$DESKTOP_SESSION" == "qtile" ];then
+#      qtile_swallow "$exec_cmd" "$@"
 elif command -v devour >/dev/null;then
     devour "$exec_cmd" "$@" &>/dev/null
 else

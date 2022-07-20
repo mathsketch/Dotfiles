@@ -11,7 +11,7 @@ mark.foreground       : #d79921
 
 ! Set st config =============================================
 ! Transparency (0-1):
-st.alpha: 0.85
+st.alpha: 0.90
 ! Set a default font and font size as below:
 st.font:  FiraCode Nerd Font:pixelsize=20:antialias=true:autohint=true
 ! st.termname     : xterm-256color

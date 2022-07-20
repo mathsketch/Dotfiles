@@ -25,7 +25,8 @@ set preview
 set previewer ~/.config/lf/bin/previewer.sh
 set cleaner ~/.config/lf/bin/clean.sh
 # set promptfmt      "\033[34;15m  \033[0m\033[33;1m%u\033[0m:\033[36;1m%d\033[0m\033[1m%f\033[0m"
-set promptfmt      "\033[30m\033[40m\033[34m \033[93;1m%u \033[96;1m %d\033[92m%f\033[0;30m\033[0m"
+# set promptfmt      "\033[30m\033[40m\033[34m \033[93;1m%u \033[96;1m %d\033[92m%f\033[0;30m\033[0m"
+set promptfmt      "\033[37m\033[47m\033[30m  \033[44m\033[37m \033[97m %d\033[1m%f\033[0;34m\033[0m"
 set ratios         '1:3:5'
 # set relativenumber
 # set reverse
@@ -57,7 +58,7 @@ cmd colsfix ${{
     fi
 }}
 
-cmd open_with $"$@" $fx
+cmd open_with $swl "$@" $fx
 cmd swallow_open_with $LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 swl "$@" $fx
 
 cmd open ${{
@@ -89,7 +90,7 @@ cmd kdeconnect_share ${{
 
 cmd jump ${{
     set +e
-    res=$(zoxide query --exclude "$PWD" "${1:-}" 2>/dev/null)
+    res=$(zoxide query --exclude "$PWD" "${@:-}" 2>/dev/null)
     if [[ -d "$res" ]];then
         lf --remote "send $id cd '$res'"
     else
@@ -99,7 +100,7 @@ cmd jump ${{
 
 cmd jumpall ${{
     set +e
-    res=$(zoxide query -ls "${1:-}" 2>/dev/null | fzf)
+    res=$(zoxide query -ls "${@:-}" 2>/dev/null | fzf)
     if [[ -d "$res" ]];then
         lf --remote "send $id cd '$res'"
     else

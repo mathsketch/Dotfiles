@@ -5,6 +5,10 @@ device_exclude="DisplayDevice|line_power_AC0"
 cache_dir="$HOME/.cache/batterystate"
 max_num="5"
 
+clean() {
+    rm "$cache_dir"/*
+}
+
 list_devices() {
     upower -e
 }
@@ -41,8 +45,8 @@ notify_info() {
     [ -d "$cache_dir" ] || mkdir -p "$cache_dir"
 
     if [ "$device_percentage" -le 30 ];then
-        if ! [ -f "$cache_dir/$device_path" ];then
-            echo "low" > "$cache_dir/$device_path"
+        if ! [ -f "$cache_dir/${device_path//\//_}" ];then
+            echo "low" > "$cache_dir/${device_path//\//_}"
             notify-send -u critical "${device_alias[$device_path]:-$device_model} 电量过低！"
         fi
     elif [ "$device_percentage" -ge 100 ];then
@@ -51,7 +55,7 @@ notify_info() {
             notify-send -u normal "${device_alias[$device_path]:-$device_model} 电量已满！"
         fi
     else
-        [ -f "$cache_dir/$device_path" ] && rm "$cache_dir/$device_path" 
+        [ -f "$cache_dir/${device_path//\//_}" ] && rm "$cache_dir/${device_path//\//_}"
     fi
 }
 
@@ -144,5 +148,6 @@ EOF
 case "$1" in
     -l) list_devices;;
     -e) eww_widget;;
+    -c) clean;;
     *) battery_info;;
 esac

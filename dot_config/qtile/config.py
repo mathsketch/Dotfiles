@@ -39,6 +39,7 @@ special_groups = [
             "persist": False,
             "matches": [Match(wm_class=re.compile('^Steam')),
                         Match(wm_class=re.compile("^Minecraft")),
+                        Match(wm_class=re.compile("^Lutris")),
                         Match(wm_instance_class="minecraft-launcher"),
                         Match(wm_class="org.jackhuang.hmcl.Launcher")],
             "label": "",
@@ -97,7 +98,17 @@ group_window_map = []
 @hook.subscribe.startup_once
 def autostart():
     path = os.path.expanduser('~/.config/qtile/autostart.sh')
-    subprocess.Popen([path])
+    subprocess.run([path])
+
+def eww_data_write(data):
+    fifo_file = os.path.expanduser('~/.cache/eww/eww-fifo')
+    if os.path.exists(fifo_file):
+        try:
+            fifo = os.open(fifo_file, os.O_WRONLY | os.O_NONBLOCK)
+            os.write(fifo, data.encode('UTF-8') + b'\n')
+            os.close(fifo)
+        except OSError:
+            return
 
 @hook.subscribe.client_managed
 @hook.subscribe.client_urgent_hint_changed
@@ -136,23 +147,25 @@ c.group["{}"].toscreen()' &
         })
 
     workspace_data = json.dumps(workspace_data)
-    subprocess.Popen(["eww", "update", "workspace_data={}".format(workspace_data)])
+    eww_data_write("workspace_data={}".format(workspace_data))
 
 @hook.subscribe.layout_change
 @hook.subscribe.changegroup
 @hook.subscribe.current_screen_change
 @hook.subscribe.setgroup
+@hook.subscribe.client_new
 async def eww_layout_update(*args, **kwargs):
     layout_name = qtile.current_layout.name
-    subprocess.Popen(["eww", "update", "layout_name={}".format(layout_name)])
+    eww_data_write("layout_name={}".format(layout_name))
 
 @hook.subscribe.enter_chord
 async def eww_enter_chord(_):
-    subprocess.Popen(["eww", "update", "chord_mode=chord_on"])
+    eww_data_write("chord_mode=chord_on")
+    # logger.warn(qtile.chord_stack[0].submappings)
 
 @hook.subscribe.leave_chord
 async def eww_leave_chord():
-    subprocess.Popen(["eww", "update", "chord_mode=chord_off"])
+    eww_data_write("chord_mode=chord_off")
 
 @hook.subscribe.client_new
 async def float_to_front(_):
@@ -206,10 +219,10 @@ async def float_steam(window):
         window.floating = True
 
 @hook.subscribe.client_new
-async def float_pycharm(window):
+async def float_idea(window):
     wm_class = window.window.get_wm_class()
     w_name = window.window.get_name()
-    if (wm_class == ("jetbrains-pycharm-ce", "jetbrains-pycharm-ce") and w_name == " ") or (
+    if (wm_class == ("jetbrains-idea-ce", "jetbrains-idea-ce") and w_name == " ") or (
         wm_class == ("java-lang-Thread", "java-lang-Thread") and w_name == "win0"
     ):
         window.floating = True
@@ -359,7 +372,7 @@ def resize_floating_window(qtile, ratio=2, increase=True):
 
     window.cmd_set_size_floating(fin_w, fin_h)
     window.cmd_center()
-    window.window.warp_pointer(fin_w // 2, fin_h // 2)
+    window.window.warp_pointer(window.width // 2, window.height // 2)
 
 # kill window
 @lazy.function
@@ -374,7 +387,7 @@ keys = [
     Key("M-c", next_window(), desc="Switch window focus to next window in group"),
     Key("M-S-c", prev_window(), desc="Switch window focus to previous window in group"),
     Key("M-f", lazy.window.toggle_fullscreen(), desc="Switch window focus to previous window in group"),
-    Key("M-e", lazy.window.toggle_floating(), desc="Put the focused window to/from floating mode"),
+    Key("M-e", lazy.window.toggle_floating(), lazy.window.center(), desc="Put the focused window to/from floating mode"),
 
     # For layout
     Key("M-h", lazy.layout.left().when(layout=["columns", "monadtall", "monadwide"])),
@@ -515,7 +528,7 @@ groups.extend(
             dropdowns=[
                 DropDown(
                     "terminal",
-                    "st -e sh -c 'tmux has-session 2>/dev/null || tmux new && tmux attach'",
+                    "env NO_SWL=1 st -e sh -c 'tmux has-session 2>/dev/null || tmux new && tmux attach'",
                     height=0.65,
                     width=0.8,
                     x=0.125,
@@ -548,7 +561,7 @@ keys.extend(
 layout_default_style = dict(
     border_focus="#f2e5bc",
     border_normal="#3c3836",
-    border_width=2,
+    border_width=0,
     margin=20,
 )
 
@@ -588,16 +601,22 @@ floating_layout = layout.Floating( # type: ignore
         Match(wm_class="Pavucontrol"),
         Match(wm_class="Anki"),
         Match(wm_class="Pinentry-gtk-2"),
+        Match(wm_class="GoldenDict"),
+        Match(wm_class="Nm-connection-editor"),
+        Match(wm_class="Blueman-manager"),
+        Match(wm_class="fcitx5-config-qt"),
+        Match(wm_class="kdeconnect.app"),
+        Match(wm_class=re.compile('System-config-printer.py')),
     ],
     border_focus='#f2e5bc',
     border_normal='#83a598',
-    border_width=2,
+    border_width=0,
 )
 
 dgroups_key_binder = None
 dgroups_app_rules = []
 follow_mouse_focus = True
-bring_front_click = False
+bring_front_click = True
 cursor_warp = True
 auto_fullscreen = True
 focus_on_window_activation = "smart"

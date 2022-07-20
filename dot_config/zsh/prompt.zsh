@@ -3,4 +3,3 @@ if (( $+commands[starship] )); then
 else
   echo 'starship: command not found, please install it from https://starship.rs'
 fi
-

@@ -45,8 +45,8 @@ pxy () {
             HTTPS_PROXY=$proxy_value \
             FTP_PROXY=$proxy_value   \
             ALL_PROXY=$proxy_value
-                    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
-                    echo -e "proxy on!"
+        export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+        echo -e "proxy on!"
     }
     proxy_off() {
         if [ "$1" = "-g" ] && [ -n "$TMUX" ];then

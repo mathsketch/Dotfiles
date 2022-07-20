@@ -110,6 +110,9 @@ text:
     foreground: green
     font-style: bold
 
+  key:
+    foreground: lightblue
+
   other:
     foreground: green
 

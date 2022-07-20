@@ -8,7 +8,7 @@ configuration {
     case-sensitive            : false;
     normalize-match           : false;
     show-icons                : false;
-    icon-theme                : "oomox-gruvbox";
+    icon-theme                : "oomox-gruvbox-dark-soft";
    	/* application-fallback-icon : "unknown"; */
     terminal                  : "st";
     hover-select              : true;
@@ -24,7 +24,7 @@ configuration {
     cache-dir                 : "/home/arux/.cache/rofi";
     drun-reload-desktop-cache : true;
    	drun-use-desktop-cache    : true;
-    steal-focus               : true;
+    steal-focus               : false;
 
     inputchange {
       action: "kb-row-first";
